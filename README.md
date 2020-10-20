@@ -1,7 +1,18 @@
 AutoMapper Attributes
 =====================
 
-### Setup
+
+- ASP.NET Core:
+
+    ```csharp
+    services.AddAutoMapper( (serviceProvider, cfg) => { 
+        var profile = new AutoProfile( serviceProvider );
+        cfg.AddProfile( profile.Configure() );
+    }, new Type[0] );
+    ```
+
+
+- Setup in tests:
 
     ```csharp
     AutoProfile autoProfile = new AutoProfile( typeof(Model), Mock.Of< ILogger >() );
