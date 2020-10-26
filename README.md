@@ -76,7 +76,11 @@ AutoProfile.
                 ;
         }
 
-        public IMappingExpression< IApplicationUser, UserDtoBase > CreateReverseMap( IMappingExpression< UserDtoBase, IApplicationUser > expr, IAutoProfile profile )
+
+        // expr and profile can have any order in parameters
+        public IMappingExpression< IApplicationUser, UserDtoBase > CreateReverseMap( 
+            IMappingExpression< UserDtoBase, IApplicationUser > expr, 
+            DerivedAutoProfile profile )
         {
             return
                 expr.ReverseMap()
