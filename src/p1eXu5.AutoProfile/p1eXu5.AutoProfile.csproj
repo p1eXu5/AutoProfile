@@ -8,6 +8,10 @@
     <Authors>p1eXu5</Authors>
     <Description>Attributes for AutoMapper</Description>
     <PackageTags>AutoMapper, mapper, attributes, c#, mapping, MapTo, MapFrom</PackageTags>
+    <PackageProjectUrl>https://github.com/p1eXu5/p1eXu5.AutoProfile</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/p1eXu5/p1eXu5.AutoProfile</RepositoryUrl>
+    <Copyright>2020, Vladimir Likhatskiy (p1eXu5)</Copyright>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +19,13 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.9" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.9" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="3.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
