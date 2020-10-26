@@ -45,7 +45,7 @@ AutoProfile.
     {
         ...
 
-        public IMappingExpression< ProjectDto, Project > CreateMap( IAutoProfile profile )
+        public IMappingExpression< ProjectDto, Project > CreateMapMethod( IAutoProfile profile )
         {
             return
                 profile.Instance.CreateMap< Dto, Model >( MemberList.Source )...
@@ -66,7 +66,7 @@ AutoProfile.
     {
         ...
 
-        public IMappingExpression< UserDtoBase, IApplicationUser > CreateMap( IAutoProfile profile )
+        public IMappingExpression< UserDtoBase, IApplicationUser > CreateMap( DerivedAutoProfile profile )
         {
             return
                 profile.Instance.CreateMap< UserDtoBase, IApplicationUser >( MemberList.Source )
@@ -91,8 +91,8 @@ AutoProfile.
 3. Ignoring property:
 
     ```csharp
-    [ MapFrom( typeof(IModelA) )]
-    [ MapFrom( typeof(Model), MapFactory = nameof( ViewModel.CreateMap )) ]
+    [MapFrom( typeof(IModelA) )]
+    [MapFrom( typeof(Model), ... )]
     public class ViewModel...
     {
         ...
@@ -107,13 +107,13 @@ AutoProfile.
 4. OppositeAttribute usage:
 
     ```csharp
-    [ MapTo( typeof(IApplicationUser ), MapFactory = nameof( UserUpdateDto.CreateMap ) )]
-    [ MapFrom( typeof(IApplicationUser)) ]
+    [MapTo( typeof(IApplicationUser ), ... )]
+    [MapFrom( typeof(IApplicationUser) )]
     public class UserUpdateDto : UserDto, IEntityIdDto< string >
     {
         ...
 
-        [ Opposite( nameof(IApplicationUser.UserTools)) ]
+        [Opposite( nameof(IApplicationUser.UserTools) )]
         public ICollection< EntityIdDto >? Tools { get; set; }
 
         ...
@@ -127,6 +127,7 @@ AutoProfile.
 * When a collection is mapped with resolver additional configuration is needed or AssertConfigurationIsValid() is failed (Automapper 9.0.0 bug):
 
     ```csharp
+    ...
     public IMappingExpression< ProjectDto, Project > CreateMap( IAutoProfile profile )
     {
         return
@@ -134,7 +135,7 @@ AutoProfile.
                 .ForMember( model => model.Collection, opt => opt.MapFrom( dto => dto.Collection ) )
                 .ForMember( model => model.Collection,
                     opt => {
-                        opt.MapFrom< Resolver, ICollection< Type >? >( dto => dto.Collection );
+                        opt.MapFrom< FooResolver, ICollection< FooType >? >( dto => dto.Collection );
                     })
             ;
     }
