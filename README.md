@@ -1,8 +1,14 @@
-AutoMapper Attributes
-=====================
+AutoProfile. 
+============
 
+<em>Custom [AutoMapper](https://github.com/AutoMapper "AutoMapper") attributes and profiler.</em>
 
-- ASP.NET Core:
+<br/>
+
+## Using
+<br/>
+
+1. Configure in the ASP.NET Core:
 
     ```csharp
     services.AddAutoMapper( (serviceProvider, cfg) => { 
@@ -12,7 +18,7 @@ AutoMapper Attributes
     ```
 
 
-- Setup in tests:
+2. Plain creation:
 
     ```csharp
     AutoProfile autoProfile = new AutoProfile( typeof(Model), Mock.Of< ILogger >() );
@@ -22,27 +28,13 @@ AutoMapper Attributes
 
     Mapper = conf.CreateMapper();
     ```
+<br/>
 
 
+## Map configuration examples.
+<br/>
 
-* When a collection is mapped with resolver additional configuration is needed (Automapper 9.0.0 bug):
-
-    ```csharp
-    public IMappingExpression< ProjectDto, Project > CreateMap( IAutoProfile profile )
-    {
-        return
-            profile.Instance.CreateMap< Dto, Model >( MemberList.Source )
-                .ForMember( model => model.Collection, opt => opt.MapFrom( dto => dto.Collection ) )
-                .ForMember( model => model.Collection,
-                    opt => {
-                        opt.MapFrom< Resolver, ICollection< Type >? >( dto => dto.Collection );     // for example
-                    })
-            ;
-    }
-    ```
-
-
-* MapToAttribute and MapFromAttribute usage examples:
+1. Using map configuration factory method:
 
     ```csharp
     [MapTo( typeof(Model), 
@@ -60,6 +52,9 @@ AutoMapper Attributes
         }
     }
     ```
+    <br/>
+
+2. Using reverse map factory configuration method:
 
     ```csharp
     [MapTo( typeof(IApplicationUser), 
@@ -91,9 +86,9 @@ AutoMapper Attributes
         }
     }
     ```
+    <br/>
 
-
-* IgnoreAttribute attribute example:
+3. Ignoring property:
 
     ```csharp
     [ MapFrom( typeof(IModelA) )]
@@ -106,10 +101,10 @@ AutoMapper Attributes
         public IList< string > RoleNames { get; set; } = default!;
     }
     ```
+    <br/>
 
 
-
-* OppositeAttribute attribute example:
+4. OppositeAttribute usage:
 
     ```csharp
     [ MapTo( typeof(IApplicationUser ), MapFactory = nameof( UserUpdateDto.CreateMap ) )]
@@ -124,4 +119,25 @@ AutoMapper Attributes
         ...
     }
     ```
+    <br/>
 
+## Workarounds.
+<br/>
+
+* When a collection is mapped with resolver additional configuration is needed or AssertConfigurationIsValid() is failed (Automapper 9.0.0 bug):
+
+    ```csharp
+    public IMappingExpression< ProjectDto, Project > CreateMap( IAutoProfile profile )
+    {
+        return
+            profile.Instance.CreateMap< Dto, Model >( MemberList.Source )
+                .ForMember( model => model.Collection, opt => opt.MapFrom( dto => dto.Collection ) )
+                .ForMember( model => model.Collection,
+                    opt => {
+                        opt.MapFrom< Resolver, ICollection< Type >? >( dto => dto.Collection );
+                    })
+            ;
+    }
+    ```
+
+* In some cases you'll have to use both MapTo and MapFrom attribute instead of using ReverseMap = true only or AssertConfigurationIsValid() is failed (Automapper 9.0.0 bug).
