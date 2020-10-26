@@ -1,17 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using AutoMapper;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using p1eXu5.AutoMapperAttributes.Attributes;
-using p1eXu5.AutoMapperAttributes.Contracts;
+
+using AutoMapper;
 
 // ReSharper disable once IdentifierTypo
-namespace p1eXu5.AutoMapperAttributes
+namespace p1eXu5.AutoProfile
 {
+    using Attributes;
+    using Contracts;
+
     /// <summary>
     /// Scans types with <see cref="MapAttribute"/> in the executing assembly
     /// and invokes map factory methods in those types is they set

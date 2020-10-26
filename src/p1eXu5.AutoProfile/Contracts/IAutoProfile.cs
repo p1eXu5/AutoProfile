@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
 
-namespace p1eXu5.AutoMapperAttributes.Contracts
+namespace p1eXu5.AutoProfile.Contracts
 {
     public interface IAutoProfile
     {

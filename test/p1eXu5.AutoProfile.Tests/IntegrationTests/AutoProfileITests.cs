@@ -7,10 +7,10 @@ using Moq;
 
 using AutoMapper;
 
-namespace p1eXu5.AutoMapperAttributes.Tests.IntegrationTests
+namespace p1eXu5.AutoProfile.Tests.IntegrationTests
 {
     using Attributes;
-    using Tests.Models;
+    using Fakes;
 
 
     [TestFixture]

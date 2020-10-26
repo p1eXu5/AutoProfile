@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace p1eXu5.AutoMapperAttributes.Attributes.Exceptions
+namespace p1eXu5.AutoProfile.Attributes.Exceptions
 {
     class MapFactoryReturnTypeException : MissingMethodException
     {

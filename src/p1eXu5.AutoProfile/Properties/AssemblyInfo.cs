@@ -18,4 +18,4 @@ using System.Runtime.InteropServices;
 [assembly: Guid("d09037f5-5ff3-44cb-9ca0-d852d9432b3e")]
 
 
-[assembly:InternalsVisibleTo( "p1eXu5.AutoMapperAttributes.Tests" )]
+[assembly:InternalsVisibleTo( "p1eXu5.AutoProfile.Tests" )]

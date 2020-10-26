@@ -14,8 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\p1eXu5.AutoMapperAttributes\p1eXu5.AutoMapperAttributes.csproj" />
-    <ProjectReference Include="..\p1eXu5.AutoMapperAttributes.Tests.Models\p1eXu5.AutoMapperAttributes.Tests.Models.csproj" />
+    <ProjectReference Include="..\..\src\p1eXu5.AutoProfile\p1eXu5.AutoProfile.csproj" />
   </ItemGroup>
 
 </Project>

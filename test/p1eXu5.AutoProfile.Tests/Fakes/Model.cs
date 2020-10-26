@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace p1eXu5.AutoMapperAttributes.Tests.Models
+namespace p1eXu5.AutoProfile.Tests.Fakes
 {
     public class Model
     {
