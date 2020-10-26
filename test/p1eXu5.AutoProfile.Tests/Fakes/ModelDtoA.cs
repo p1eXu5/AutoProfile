@@ -1,8 +1,9 @@
-﻿using p1eXu5.AutoMapperAttributes.Attributes;
-using System;
+﻿using System;
 
 namespace p1eXu5.AutoProfile.Tests.Fakes
 {
+    using Attributes;
+
     [ MapFrom( typeof(Model) ) ]
     public class ModelDtoA
     {

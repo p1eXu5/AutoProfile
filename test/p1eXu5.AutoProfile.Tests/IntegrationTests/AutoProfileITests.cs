@@ -6,6 +6,7 @@ using NUnit.Framework;
 using Moq;
 
 using AutoMapper;
+using p1eXu5.AutoProfile.Contracts;
 
 namespace p1eXu5.AutoProfile.Tests.IntegrationTests
 {
@@ -91,9 +92,11 @@ namespace p1eXu5.AutoProfile.Tests.IntegrationTests
     [ MapFrom( typeof( Model ), MapFactory = nameof(TestModel.CreateMap) )]
     public class TestModel
     { 
-        public IMappingExpression< Model, TestModel > CreateMap( TestProfile profile )
+        public IMappingExpression< Model, TestModel > CreateMap( IAutoProfile profile )
         {
-            profile.SetProfileType( profile.GetType() );
+            if ( profile is TestProfile testProfile) {
+                testProfile.SetProfileType( profile.GetType() );
+            }
 
             return
                 profile.Instance.CreateMap< Model, TestModel >( MemberList.Destination );
