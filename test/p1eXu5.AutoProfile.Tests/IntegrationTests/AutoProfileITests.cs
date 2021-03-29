@@ -45,7 +45,7 @@ namespace p1eXu5.AutoProfile.Tests.IntegrationTests
         }
 
         [Test]
-        public void ctor_ByDefault_CreatesMapFrom()
+        public void ctor_DtoModelWithMapFromAttribute_MapsFromModelToDtoModel()
         {
             // Arrange:
             var date = DateTimeOffset.UtcNow;
@@ -67,42 +67,47 @@ namespace p1eXu5.AutoProfile.Tests.IntegrationTests
             Type type = null;
 
             // Action:
-            new TestProfile( Mock.Of< ILogger >(), t => type = t ).Configure();
+            new TestProfile( Mock.Of< ILogger >(), setIAutoProfileInstanceType: t => type = t ).Configure();
 
             // Assert:
             Assert.NotNull( type );
             Assert.AreEqual( type, typeof( TestProfile ) );
         }
-    }
 
 
-    #region fakes
+        #region fakes
 
-    public class TestProfile : AutoProfile
-    {
-        public TestProfile(ILogger logger, Action<Type> setProfileType ) : base( typeof(TestModel), logger )
+        public class TestProfile : AutoProfile
         {
-            SetProfileType = setProfileType;
-        }
-
-        public Action<Type> SetProfileType { get; }
-    }
-
-
-    [ MapFrom( typeof( Model ), MapFactory = nameof(TestModel.CreateMap) )]
-    public class TestModel
-    { 
-        public IMappingExpression< Model, TestModel > CreateMap( IAutoProfile profile )
-        {
-            if ( profile is TestProfile testProfile) {
-                testProfile.SetProfileType( profile.GetType() );
+            public TestProfile(ILogger logger, Action<Type> setIAutoProfileInstanceType ) : base( typeof(TestModel), logger )
+            {
+                SetIAutoProfileInstanceType = setIAutoProfileInstanceType;
             }
 
-            return
-                profile.Instance.CreateMap< Model, TestModel >( MemberList.Destination );
+            /// <summary>
+            /// Getter calls in the <see cref="TestModel.CreateMap"/> method.
+            /// </summary>
+            public Action<Type> SetIAutoProfileInstanceType { get; }
         }
+
+
+        [ MapFrom( typeof( Model ), MapFactory = nameof(TestModel.CreateMap) )]
+        public class TestModel
+        { 
+            public IMappingExpression< Model, TestModel > CreateMap( IAutoProfile profile )
+            {
+                if ( profile is TestProfile testProfile) {
+                    testProfile.SetIAutoProfileInstanceType( profile.GetType() );
+                }
+
+                return
+                    profile.Instance.CreateMap< Model, TestModel >( MemberList.Destination );
+            }
+        }
+
+
+        #endregion ----------------------------------------------------- factories
     }
 
 
-    #endregion ----------------------------------------------------- factories
 }
