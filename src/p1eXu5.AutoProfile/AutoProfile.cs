@@ -23,7 +23,7 @@ namespace p1eXu5.AutoProfile
         #region fields
 
         private readonly Assembly _assembly;
-        private bool _isScanned;
+        private bool _areMapsScanned;
 
         #endregion ----------------------------------------------------- fields
 
@@ -90,13 +90,13 @@ namespace p1eXu5.AutoProfile
         /// <returns></returns>
         public virtual Profile Configure()
         {
-            if (!_isScanned)
+            if (!_areMapsScanned)
             {
                 Setup();
                 CreateCommonMaps();
 
                 ProcessMapAttributesFrom(_assembly);
-                _isScanned = true;
+                _areMapsScanned = true;
             }
 
             return this;
@@ -124,7 +124,10 @@ namespace p1eXu5.AutoProfile
         }
 
         /// <summary>
-        /// For tests.
+        /// Checks <see cref="MapAttribute"/>s on <paramref name="type"/> and calls <see cref="Profile.CreateMap(System.Type,System.Type)"/>.
+        /// <para>
+        /// Is used in tests.
+        /// </para>
         /// </summary>
         /// <param name="type"></param>
         internal void CreateMaps(Type type)

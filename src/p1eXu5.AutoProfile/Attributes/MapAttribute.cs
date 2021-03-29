@@ -154,21 +154,21 @@ namespace p1eXu5.AutoProfile.Attributes
 
             if (!String.IsNullOrWhiteSpace(MapFactory))
             {
-                if (!type.IsInterface)
+                if (MapFactoryType != null)
+                {
+                    mapFactory = MapFactoryType.GetMethod(MapFactory!, BindingFlags.Static | BindingFlags.Public);
+                }
+                else if (!type.IsInterface)
                 {
                     // if there are several methods with the same name then CS0108 compiler warning will be
-                    mapFactory = type.GetMethod(MapFactory,
+                    mapFactory = type.GetMethod(MapFactory!,
                         BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.Public);
-                }
-                else if (MapFactoryType != null)
-                {
-                    mapFactory = MapFactoryType.GetMethod(MapFactory, BindingFlags.Static | BindingFlags.Public);
                 }
 
                 if (mapFactory != null)
                 {
 
-                    if (!type.IsInterface)
+                    if (!type.IsInterface && MapFactoryType == null)
                     {
                         instance = Activator.CreateInstance(type);
                     }
