@@ -1,17 +1,20 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
-    <Version>0.1.0</Version>
+    <Version>0.10.1-beta</Version>
     <Authors>p1eXu5</Authors>
-    <Description>Attributes for AutoMapper</Description>
+    <Description>Additional attributes for AutoMapper</Description>
     <PackageTags>AutoMapper, mapper, attributes, c#, mapping, MapTo, MapFrom</PackageTags>
     <PackageProjectUrl>https://github.com/p1eXu5/p1eXu5.AutoProfile</PackageProjectUrl>
     <RepositoryUrl>https://github.com/p1eXu5/p1eXu5.AutoProfile</RepositoryUrl>
     <Copyright>2020, Vladimir Likhatskiy (p1eXu5)</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <FileVersion>0.10.1.001</FileVersion>
+    <Product>AutoProfile</Product>
+    <PackageId>AutoProfile</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
