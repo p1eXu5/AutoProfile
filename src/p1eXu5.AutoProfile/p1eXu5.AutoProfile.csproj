@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
-    <Version>0.10.1-beta</Version>
+    <Version>0.10.1-beta1</Version>
     <Authors>p1eXu5</Authors>
     <Description>Additional attributes for AutoMapper</Description>
     <PackageTags>AutoMapper, mapper, attributes, c#, mapping, MapTo, MapFrom</PackageTags>
