@@ -3,6 +3,11 @@ AutoProfile.
 
 <em>Custom [AutoMapper](https://github.com/AutoMapper "AutoMapper") attributes and profiler.</em>
 
+| Package                     | Versions                                                                                                                                |
+| --------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| p1eXu5.AutoProfile          | [![NuGet](https://img.shields.io/badge/nuget-0.1.0-green)](https://www.nuget.org/packages/p1eXu5.AutoProfile/0.1.0)     |
+
+
 <br/>
 
 ## Using
