@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using AutoMapper;
-using Microsoft.Extensions.Logging;
 
 namespace p1eXu5.AutoProfile
 {
