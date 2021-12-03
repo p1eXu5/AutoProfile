@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 using AutoMapper;
+using System.Runtime.CompilerServices;
 
 // ReSharper disable once IdentifierTypo
 namespace p1eXu5.AutoProfile
@@ -130,7 +131,7 @@ namespace p1eXu5.AutoProfile
         /// </para>
         /// </summary>
         /// <param name="type"></param>
-        internal void CreateMaps(Type type)
+        public void CreateMaps(Type type)
         {
             var attributes = type.GetCustomAttributes<MapAttribute>().ToArray();
             foreach (MapAttribute mapAttribute in attributes)

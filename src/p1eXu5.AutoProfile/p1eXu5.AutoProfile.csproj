@@ -4,9 +4,16 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
-    <Version>0.10.1-beta1</Version>
+	  
+	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
+	  
+	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <Version>10.1.5.5-beta1</Version>
     <Authors>p1eXu5</Authors>
-    <Description>Additional attributes for AutoMapper</Description>
+    <Description>
+		Additional attributes for AutoMapper.
+		Package version consists of {AutoMapperVersion}.{MSDependencyInjection.Abstractions}.{MSLogging.Abstractions}
+	</Description>
     <PackageTags>AutoMapper, mapper, attributes, c#, mapping, MapTo, MapFrom</PackageTags>
     <PackageProjectUrl>https://github.com/p1eXu5/p1eXu5.AutoProfile</PackageProjectUrl>
     <RepositoryUrl>https://github.com/p1eXu5/p1eXu5.AutoProfile</RepositoryUrl>
@@ -15,12 +22,18 @@
     <FileVersion>0.10.1.001</FileVersion>
     <Product>AutoProfile</Product>
     <PackageId>AutoProfile</PackageId>
+	  <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>	      
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -28,10 +41,6 @@
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>
