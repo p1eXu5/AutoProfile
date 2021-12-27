@@ -80,7 +80,7 @@ Target.create "All" ignore
   ==> "Build"
   ==> "Test"
   ==> "Pack"
-  ==> "Push"
+  //==> "Push"
   ==> "All"
 
 Target.runOrDefault "All"

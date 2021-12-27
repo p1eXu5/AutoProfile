@@ -8,7 +8,7 @@
 	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
 	  
 	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <Version>10.1.5.2-beta1</Version>
+    <Version>10.1.5.2</Version>
     <Authors>p1eXu5</Authors>
     <Description>
 		Additional attributes for AutoMapper.
@@ -20,8 +20,8 @@
     <Copyright>2020, Vladimir Likhatskiy (p1eXu5)</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <FileVersion>0.10.1.001</FileVersion>
-    <Product>AutoProfile</Product>
-    <PackageId>AutoProfile</PackageId>
+    <Product>p1eXu5.AutoProfile</Product>
+    <PackageId>p1eXu5.AutoProfile</PackageId>
 	  <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>	      
   </PropertyGroup>
