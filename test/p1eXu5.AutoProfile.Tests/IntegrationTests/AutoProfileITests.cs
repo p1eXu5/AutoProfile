@@ -11,6 +11,7 @@ using p1eXu5.AutoProfile.Contracts;
 namespace p1eXu5.AutoProfile.Tests.IntegrationTests
 {
     using Attributes;
+    using AutoMapper.Internal;
     using Fakes;
 
 
@@ -35,7 +36,7 @@ namespace p1eXu5.AutoProfile.Tests.IntegrationTests
         public void ctor_ByDefault_ScansAndAddMapsFromAssembly()
         {
             // Action:
-            var coll = Mapper.ConfigurationProvider.GetAllTypeMaps();
+            var coll = Mapper.ConfigurationProvider.Internal().GetAllTypeMaps();
 
             // Assert:
             Assert.IsTrue( coll.Any( m => m.Types == new TypePair( typeof(Model), typeof(ModelDtoA) ) ) );

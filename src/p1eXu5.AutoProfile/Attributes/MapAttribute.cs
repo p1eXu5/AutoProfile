@@ -6,6 +6,7 @@ using AutoMapper.Configuration.Annotations;
 
 namespace p1eXu5.AutoProfile.Attributes
 {
+    using AutoMapper.Configuration;
     using Contracts;
 
     [AttributeUsage( AttributeTargets.Class, AllowMultiple = true, Inherited = false )]
