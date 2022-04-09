@@ -17,6 +17,8 @@ AutoProfile.
 
 1. Configure in the ASP.NET Core:
 
+    Install-Package AutoMapper.Extensions.Microsoft.DependencyInjection -Version 11.0.0
+
     ```csharp
     services.AddAutoMapper( (serviceProvider, cfg) => { 
         var profile = new AutoProfile( serviceProvider );
