@@ -44,7 +44,7 @@ jobs:
     - name: PushNuget
       env:
         SUPER_SECRET: ${{ secrets.PUBLISH_TO_NUGET_ORG }}
-      run: dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key $SUPER_SECRET --skip-duplicate
+      run: dotnet nuget push *.nupkg --source https://api.nuget.org/v3/index.json --api-key "$SUPER_SECRET" --skip-duplicate
       
  #   - name: AddGithubSource
  #     run: dotnet nuget add source --username PieterjanDeClippel --password ${{secrets.PUBLISH_TO_GITHUB_COM}} --name github https://nuget.pkg.github.com/MintPlayer/index.json
