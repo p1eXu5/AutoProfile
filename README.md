@@ -20,12 +20,21 @@ AutoProfile.
     Install-Package AutoMapper.Extensions.Microsoft.DependencyInjection -Version 11.0.0
 
     ```csharp
-    services.AddAutoMapper( (serviceProvider, cfg) => { 
-        var profile = new AutoProfile( serviceProvider );
+    services.AddAutoMapper( (serviceProvider, cfg) => {
+        var logger = serviceProvider.GetRequiredService<ILogger<AutoProfile>>();
+        var profile = new AutoProfile( logger );
         cfg.AddProfile( profile.Configure() );
     }, new Type[0] );
     ```
-
+    
+    Blazor:
+    ```csharp
+    builder.Services.AddAutoMapper((serviceProvider, cfg) => { 
+        var logger = serviceProvider.GetRequiredService<ILogger<AutoProfile>>();
+        var profile = new AutoProfile(typeof(TermDto), logger);
+        cfg.AddProfile( profile.Configure() );
+    }, new Type[0]);
+    ```
 
 2. Plain creation:
 
