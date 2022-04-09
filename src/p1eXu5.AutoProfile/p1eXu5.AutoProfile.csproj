@@ -1,25 +1,24 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
 	  
 	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
 	  
 	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <Version>10.1.5.2</Version>
+    <Version>11.0.1</Version>
     <Authors>p1eXu5</Authors>
     <Description>
 		Additional attributes for AutoMapper.
-		Package version consists of {AutoMapperVersion}.{MSDependencyInjection.Abstractions}.{MSLogging.Abstractions}
 	</Description>
     <PackageTags>AutoMapper, mapper, attributes, c#, mapping, MapTo, MapFrom</PackageTags>
     <PackageProjectUrl>https://github.com/p1eXu5/p1eXu5.AutoProfile</PackageProjectUrl>
     <RepositoryUrl>https://github.com/p1eXu5/p1eXu5.AutoProfile</RepositoryUrl>
     <Copyright>2020, Vladimir Likhatskiy (p1eXu5)</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <FileVersion>0.10.1.001</FileVersion>
+    <FileVersion>11.0.1.001</FileVersion>
     <Product>p1eXu5.AutoProfile</Product>
     <PackageId>p1eXu5.AutoProfile</PackageId>
 	  <IncludeSymbols>true</IncludeSymbols>
@@ -27,9 +26,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="10.1.1" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="2.2.0" />
+    <PackageReference Include="AutoMapper" Version="11.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
