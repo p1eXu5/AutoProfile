@@ -31,7 +31,7 @@ AutoProfile.
     ```csharp
     builder.Services.AddAutoMapper((serviceProvider, cfg) => { 
         var logger = serviceProvider.GetRequiredService<ILogger<AutoProfile>>();
-        var profile = new AutoProfile(typeof(TermDto), logger);
+        var profile = new AutoProfile(typeof(Model), logger);
         cfg.AddProfile( profile.Configure() );
     }, new Type[0]);
     ```
