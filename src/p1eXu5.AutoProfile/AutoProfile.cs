@@ -56,7 +56,10 @@ namespace p1eXu5.AutoProfile
         /// <param name="assemblyType"> Type in a scanned assembly. </param>
         /// <param name="logger"> Logger. </param>
         public AutoProfile(Type assemblyType, ILogger logger)
-            : this(Assembly.GetAssembly(assemblyType), logger)
+            : this(
+                Assembly.GetAssembly(assemblyType) 
+                    ?? throw new ArgumentException("Type assembly is null.",
+                nameof(assemblyType)), logger)
         { }
 
 
