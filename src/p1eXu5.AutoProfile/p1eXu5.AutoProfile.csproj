@@ -7,7 +7,7 @@
 	  <PublishRepositoryUrl>true</PublishRepositoryUrl>
 	  
 	  <EmbedUntrackedSources>true</EmbedUntrackedSources>
-    <Version>11.1.1</Version>
+    <Version>11.1.2</Version>
     <Authors>p1eXu5</Authors>
     <Description>
 		Additional attributes for AutoMapper.
@@ -17,7 +17,7 @@
     <RepositoryUrl>https://github.com/p1eXu5/p1eXu5.AutoProfile</RepositoryUrl>
     <Copyright>2020, Vladimir Likhatskiy (p1eXu5)</Copyright>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <FileVersion>11.1.1.001</FileVersion>
+    <FileVersion>11.1.2.001</FileVersion>
     <Product>p1eXu5.AutoProfile</Product>
     <PackageId>p1eXu5.AutoProfile</PackageId>
 	  <IncludeSymbols>true</IncludeSymbols>
