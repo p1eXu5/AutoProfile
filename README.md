@@ -46,6 +46,35 @@ AutoProfile.
 
     Mapper = conf.CreateMapper();
     ```
+
+3. For testing of certain maps:
+
+    ```csharp
+    public abstract class AutoMapperTestsBase
+    {
+        protected IMapper Mapper { get; private set; } = default!;
+
+        protected virtual ICollection<Type> MappingTypes { get; } = Array.Empty<Type>();
+
+        [OneTimeSetUp]
+        public void Initialize()
+        {
+            AutoProfile autoProfile = new AutoProfile(
+                MockLoggerFactories.GetMockILogger<AutoProfile>(TestContext.WriteLine).Object,
+                new AutoProfileOptions(ProcessMapAttributesFromAssembly: false));
+
+            foreach (var type in MappingTypes) {
+                autoProfile.CreateMaps(type);
+            }
+
+            var conf = new MapperConfiguration(cfg => cfg.AddProfile(autoProfile.Configure()));
+            conf.AssertConfigurationIsValid();
+
+            Mapper = conf.CreateMapper();
+        }
+    }
+    ```
+
 <br/>
 
 
@@ -110,20 +139,74 @@ AutoProfile.
     ```
     <br/>
 
-3. Ignoring property:
+3. Ignoring property.
 
-    ```csharp
-    [MapFrom( typeof(IModelA) )]
-    [MapFrom( typeof(Model), ... )]
-    public class ViewModel...
-    {
-        ...
+    - ignoring destination property:
 
-        [Ignore]
-        public IList< string > RoleNames { get; set; } = default!;
-    }
-    ```
-    <br/>
+        ```csharp
+        [MapFrom( typeof(IModelA) )]
+        [MapFrom( typeof(Model), ... )]
+        public class ViewModel...
+        {
+            ...
+
+            [Ignore]
+            public IList< string > RoleNames { get; set; } = default!;
+        }
+        ```
+        <br/>
+
+        ```csharp
+        [MapTo( typeof(ModelA) )]
+        public class ViewModel...
+        {
+            ...
+
+            public IList< string > RoleNames { get; set; } = default!;
+        }
+
+        public class ModelA...
+        {
+            ...
+
+            [Ignore]
+            public IList< string > RoleNames { get; set; } = default!;
+        }
+        ```
+        <br/>
+
+    - ignoring source property:
+        ```csharp
+        [MapTo( typeof(IModelA) )]
+        public class ViewModel...
+        {
+            ...
+
+            [Ignore]
+            public IList< string > RoleNames { get; set; } = default!;
+        }
+        ```
+        <br/>
+
+        ```csharp
+        [MapFrom( typeof(ModelA) )]
+        public class ViewModel...
+        {
+            ...
+
+            public IList< string > RoleNames { get; set; } = default!;
+        }
+
+        public class ModelA...
+        {
+            ...
+
+            [Ignore]
+            public IList< string > RoleNames { get; set; } = default!;
+        }
+        ```
+        <br/>
+
 
 
 4. OppositeAttribute usage:
