@@ -42,9 +42,19 @@ namespace p1eXu5.AutoProfile.Attributes
 
             var propertyPairs = FindOpposites(SourceType, BindingFlags.GetProperty, DestinationType, pi => pi.SetMethod != null);
 
-            foreach (var pair in propertyPairs)
+            if (MemberList.Destination == MemberList) 
             {
-                expr.ForMember(pair.opi.Name, opt => opt.MapFrom((s, d) => pair.pi.GetMethod!.Invoke(s, null)));
+                foreach (var pair in propertyPairs)
+                {
+                    expr.ForMember(pair.opi.Name, opt => opt.MapFrom((s, d) => pair.pi.GetMethod!.Invoke(s, null)));
+                }
+            }
+            else 
+            {
+                foreach (var pair in propertyPairs) {
+                    expr.ForMember(pair.opi.Name, opt => opt.MapFrom((s, d) => pair.pi.GetMethod!.Invoke(s, null)));
+                    expr.ForSourceMember(pair.pi.Name, opt => opt.DoNotValidate());
+                }
             }
 
             return expr;

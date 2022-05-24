@@ -40,9 +40,22 @@ namespace p1eXu5.AutoProfile.Attributes
         {
             var expr = profile.Instance.CreateMap(SourceType, DestinationType, MemberList);
 
-            foreach (var pair in FindOpposites(SourceType, BindingFlags.SetProperty, DestinationType, pi => pi.GetMethod != null))
+            var propertyPairs = FindOpposites(DestinationType, BindingFlags.SetProperty, SourceType, pi => pi.GetMethod != null);
+
+
+            if (MemberList.Destination == MemberList) 
             {
-                expr.ForMember(pair.pi.Name, opt => opt.MapFrom((s, d) => pair.opi.GetMethod!.Invoke(s, null)));
+                foreach (var pair in propertyPairs)
+                {
+                    expr.ForMember(pair.pi.Name, opt => opt.MapFrom((s, d) => pair.opi.GetMethod!.Invoke(s, null)));
+                }
+            }
+            else {
+                foreach (var pair in propertyPairs) 
+                {
+                    expr.ForMember(pair.pi.Name, opt => opt.MapFrom((s, d) => pair.opi.GetMethod!.Invoke(s, null)));
+                    expr.ForSourceMember(pair.opi.Name, opt => opt.DoNotValidate());
+                }
             }
 
             return expr;
