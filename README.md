@@ -5,7 +5,7 @@ AutoProfile.
 
 | Package                     | Versions                                                                                                                |
 | --------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| p1eXu5.AutoProfile          | [![NuGet](https://img.shields.io/badge/nuget-11.1.1-brightgreen)](https://www.nuget.org/packages/p1eXu5.AutoProfile/11.1.1)     |
+| p1eXu5.AutoProfile          | [![NuGet](https://img.shields.io/badge/nuget-11.1.2-brightgreen)](https://www.nuget.org/packages/p1eXu5.AutoProfile/11.1.2)     |
 | p1eXu5.AutoProfile          | [![NuGet](https://img.shields.io/badge/nuget-11.0.1-green)](https://www.nuget.org/packages/p1eXu5.AutoProfile/11.0.1)     |
 | p1eXu5.AutoProfile          | [![NuGet](https://img.shields.io/badge/nuget-10.1.5.2-green)](https://www.nuget.org/packages/p1eXu5.AutoProfile/10.1.5.2)     |
 | p1eXu5.AutoProfile          | [![NuGet](https://img.shields.io/badge/nuget-0.1.0-green)](https://www.nuget.org/packages/p1eXu5.AutoProfile/0.1.0)     |
