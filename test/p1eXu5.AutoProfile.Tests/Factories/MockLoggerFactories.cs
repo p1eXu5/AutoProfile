@@ -2,7 +2,7 @@
 using Moq;
 using System;
 
-namespace Mr.Avalon.KonturFocus.Tests.Tools.Factories
+namespace p1eXu5.AutoProfile.Tests.Factories
 {
     public static class MockLoggerFactories
     {

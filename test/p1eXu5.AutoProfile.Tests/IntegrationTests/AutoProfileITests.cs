@@ -16,9 +16,9 @@ namespace p1eXu5.AutoProfile.Tests.IntegrationTests
 
 
     [TestFixture]
-    public class AutoProfileITests
+    public class AutoProfileTests
     {
-        private IMapper Mapper { get; set; }
+        private IMapper Mapper { get; set; } = default!;
 
 
         [OneTimeSetUp]
@@ -65,7 +65,7 @@ namespace p1eXu5.AutoProfile.Tests.IntegrationTests
         public void ctor_TestProfile_CallsFactoryMethodWithTestProfile()
         {
             // Arrange:
-            Type type = null;
+            Type type = null!;
 
             // Action:
             new TestProfile( Mock.Of< ILogger >(), setIAutoProfileInstanceType: t => type = t ).Configure();

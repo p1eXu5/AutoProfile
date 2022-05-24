@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using Moq;
-using NUnit.Framework;
-using p1eXu5.AutoProfile.Attributes;
 using p1eXu5.AutoProfile.Contracts;
 using p1eXu5.AutoProfile.Tests.Fakes;
 
@@ -19,7 +11,7 @@ namespace p1eXu5.AutoProfile.Tests.IntegrationTests
         public void ctor_MapFactoryTypeAttribute_StaticCreateMapMethod_IsCalled()
         {
             // Arrange:
-            Type type = null;
+            Type? type = null;
             var profile = new TestProfile( Mock.Of< ILogger >(), setIAutoProfileInstanceType: t => type = t );
 
             // Action:
