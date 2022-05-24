@@ -36,11 +36,11 @@ namespace p1eXu5.AutoProfile.Attributes
         {
             DestinationType = type;
         }
-        protected override IMappingExpression CreateDefaultMap<TProfile>(TProfile profile, Type type)
+        protected override IMappingExpression CreateDefaultMap<TProfile>(TProfile profile)
         {
-            var expr = profile.Instance.CreateMap(Source, type, MemberList);
+            var expr = profile.Instance.CreateMap(SourceType, DestinationType, MemberList);
 
-            foreach (var pair in FindOpposites(type, BindingFlags.SetProperty, Source, pi => pi.GetMethod != null))
+            foreach (var pair in FindOpposites(SourceType, BindingFlags.SetProperty, DestinationType, pi => pi.GetMethod != null))
             {
                 expr.ForMember(pair.pi.Name, opt => opt.MapFrom((s, d) => pair.opi.GetMethod!.Invoke(s, null)));
             }

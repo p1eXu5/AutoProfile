@@ -80,7 +80,7 @@ namespace p1eXu5.AutoProfile.Attributes
         /// <param name="type"></param>
         protected abstract void SetType(Type type);
 
-        protected abstract IMappingExpression CreateDefaultMap<TProfile>(TProfile profile, Type type) where TProfile : IAutoProfile;
+        protected abstract IMappingExpression CreateDefaultMap<TProfile>(TProfile profile) where TProfile : IAutoProfile;
         protected abstract IMappingExpression CreateDefaultReverseMap<TProfile>(TProfile profile, Type type, IMappingExpression expr) where TProfile : IAutoProfile;
 
         /// <summary>
@@ -218,7 +218,7 @@ namespace p1eXu5.AutoProfile.Attributes
 
             if (mapFactoryMethodInfo == null)
             {
-                expr = CreateDefaultMap(profile, type);
+                expr = CreateDefaultMap(profile);
 
                 if (IncludeAllDerived)
                 {
