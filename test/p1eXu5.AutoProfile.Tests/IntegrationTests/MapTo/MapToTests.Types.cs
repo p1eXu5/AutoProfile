@@ -12,14 +12,17 @@ public class MapToTestsTypes
         Three
     }
 
-
-    public interface ISimpleClassModel
+    public interface ISimpleClassModelBase
     {
         int IntProp { get; }
-        string StringProp { get; }
         bool BoolProp { get; }
         double DoubleProp { get; }
         TestEnum EnumProp { get; }
+    }
+
+    public interface ISimpleClassModel : ISimpleClassModelBase
+    {
+        string StringProp { get; }
     }
 
 
@@ -98,6 +101,35 @@ public class MapToTestsTypes
 
             [Ignore]
             public string StringProp { get; init; } = default!;
+
+            public bool BoolProp { get; init; }
+            public double DoubleProp { get; init; }
+            public TestEnum EnumProp { get; init; }
+        }
+    }
+
+    public static class Opposite
+    {
+        [MapTo(typeof(MapToTestsTypes.SlaveSimpleClassModel), MemberList = MemberList.Destination)]
+        public class DestinationMasterSimpleClassModel : ISimpleClassModelBase
+        {
+            public int IntProp { get; init; }
+
+            [Opposite(nameof(MapToTestsTypes.SlaveSimpleClassModel.StringProp))]
+            public string StringAnotherProp { get; init; } = default!;
+
+            public bool BoolProp { get; init; }
+            public double DoubleProp { get; init; }
+            public TestEnum EnumProp { get; init; }
+        }
+
+        [MapTo(typeof(MapToTestsTypes.SlaveSimpleClassModel), MemberList = MemberList.Source)]
+        public class SourceMasterSimpleClassModel : ISimpleClassModelBase
+        {
+            public int IntProp { get; init; }
+
+            [Opposite(nameof(MapToTestsTypes.SlaveSimpleClassModel.StringProp))]
+            public string StringAnotherProp { get; init; } = default!;
 
             public bool BoolProp { get; init; }
             public double DoubleProp { get; init; }

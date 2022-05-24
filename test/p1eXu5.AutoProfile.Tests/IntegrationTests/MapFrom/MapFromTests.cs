@@ -13,6 +13,8 @@ public class MapFromTests : AutoMapperTestsBase
             typeof(SlaveSimpleRecordModel),
             typeof(SlaveSimpleRecordStructModel),
             typeof(Ignored.SlaveSimpleClassModel),
+            typeof(Opposite.DestinationSlaveSimpleClassModel),
+            typeof(Opposite.SourceSlaveSimpleClassModel),
         };
 
 
@@ -52,6 +54,32 @@ public class MapFromTests : AutoMapperTestsBase
 
         // Assert:
         slave.Should().NotBeEquivalentTo(master);
+    }
+
+    [Test]
+    public void SlaveModelWithOppositeProperty_MemberListIsDestination_MappingProperty()
+    {
+        // Arrange:
+        var master = AutoFaker.Generate<MasterSimpleClassModel>();
+
+        // Action:
+        Opposite.DestinationSlaveSimpleClassModel slave = Mapper.Map<Opposite.DestinationSlaveSimpleClassModel>(master);
+
+        // Assert:
+        slave.StringAnotherProp.Should().BeEquivalentTo(master.StringProp);
+    }
+
+    [Test]
+    public void SlaveModelWithOppositeProperty_MemberListIsSource_MappingProperty()
+    {
+        // Arrange:
+        var master = AutoFaker.Generate<MasterSimpleClassModel>();
+
+        // Action:
+        Opposite.SourceSlaveSimpleClassModel slave = Mapper.Map<Opposite.SourceSlaveSimpleClassModel>(master);
+
+        // Assert:
+        slave.StringAnotherProp.Should().BeEquivalentTo(master.StringProp);
     }
 }
 
