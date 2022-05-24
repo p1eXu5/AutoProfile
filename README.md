@@ -225,6 +225,25 @@ AutoProfile.
         ...
     }
     ```
+
+    #### <b>Warning! There is an workaround to use with immutable record:</b>
+
+    1. Define private parameterless constructor
+    2. Add private init
+
+        ```csharp
+        public record RecordModel
+        {
+            private RecordModel()
+            { }
+            public RecordModel(string oppositeProp) : this()
+            {
+                this.OppositeProp = oppositeProp;
+            }
+            public string OppositeProp { get; private init; }
+        }
+        ```
+
     <br/>
 
 ## Workarounds.

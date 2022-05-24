@@ -82,4 +82,17 @@ public class MapToTests : AutoMapperTestsBase
         // Assert:
         slave.StringProp.Should().BeEquivalentTo(master.StringAnotherProp);
     }
+
+    [Test]
+    public void MasterModelWithOppositeProperty_MemberListIsDestination_ToRecord_MappingProperty()
+    {
+        // Arrange:
+        var master = AutoFaker.Generate<Opposite.DestinationMasterSimpleClassModel>();
+
+        // Action:
+        ISimpleClassModel slave = Mapper.Map<SlaveSimpleRecordModel>(master);
+
+        // Assert:
+        slave.StringProp.Should().BeEquivalentTo(master.StringAnotherProp);
+    }
 }

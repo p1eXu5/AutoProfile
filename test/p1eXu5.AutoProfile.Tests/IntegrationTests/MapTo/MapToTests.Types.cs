@@ -78,6 +78,38 @@ public class MapToTestsTypes
         public TestEnum EnumProp { get; init; }
     }
 
+    public record SlaveSimpleRecordModel : ISimpleClassModel
+    {
+
+        public SlaveSimpleRecordModel(int intProp,
+            bool boolProp,
+            double doubleProp,
+            TestEnum enumProp,
+            string stringProp)
+        {
+            IntProp = intProp;
+            BoolProp = boolProp;
+            DoubleProp = doubleProp;
+            EnumProp = enumProp;
+            StringProp = stringProp;
+        }
+
+        public int IntProp { get; }
+        public bool BoolProp { get; }
+        public double DoubleProp { get; }
+        public TestEnum EnumProp { get; }
+        public string StringProp { get; private init; }
+    }
+
+    //public record SlaveSimpleRecordModel : ISimpleClassModel
+    //{
+    //    public int IntProp { get; init; }
+    //    public string StringProp { get; init; } = default!;
+    //    public bool BoolProp { get; init; }
+    //    public double DoubleProp { get; init; }
+    //    public TestEnum EnumProp { get; init; }
+    //}
+
 
     public static class Ignored
     {
@@ -111,6 +143,7 @@ public class MapToTestsTypes
     public static class Opposite
     {
         [MapTo(typeof(MapToTestsTypes.SlaveSimpleClassModel), MemberList = MemberList.Destination)]
+        [MapTo(typeof(MapToTestsTypes.SlaveSimpleRecordModel), MemberList = MemberList.Destination)]
         public class DestinationMasterSimpleClassModel : ISimpleClassModelBase
         {
             public int IntProp { get; init; }
