@@ -30,10 +30,12 @@ namespace p1eXu5.AutoProfile.Attributes
             get => Target;
             set => throw new InvalidOperationException($"Cannot set {nameof(DestinationType)} in the {nameof(MapToAttribute)}");
         }
+
         protected override void SetType(Type type)
         {
             SourceType = type;
         }
+
         protected override IMappingExpression CreateDefaultMap<TProfile>(TProfile profile, Type type)
         {
             var expr = profile.Instance.CreateMap(type, Target, MemberList);
@@ -47,6 +49,7 @@ namespace p1eXu5.AutoProfile.Attributes
 
             return expr;
         }
+
         protected override IMappingExpression CreateDefaultReverseMap<TProfile>(TProfile profile, Type type, IMappingExpression expr)
         {
             expr = expr.ReverseMap();

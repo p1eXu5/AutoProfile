@@ -15,12 +15,12 @@ namespace p1eXu5.AutoProfile.Attributes
         #region properties 
 
         /// <summary>
-        /// Includes all maps of this type to derives types.
+        /// Includes all maps of this annotatedType to derives types.
         /// </summary>
         public bool IncludeAllDerived { get; set; }
 
         /// <summary>
-        /// Includes all maps of this type to derives types.
+        /// Includes all maps of this annotatedType to derives types.
         /// </summary>
         public bool IncludeAllDerivedForReverse { get; set; }
 
@@ -49,19 +49,37 @@ namespace p1eXu5.AutoProfile.Attributes
 
 
         #region methods
-        public void CreateMap<TProfile>(TProfile profile, Type type) where TProfile : IAutoProfile
-        {
-            SetType(type);
 
-            var (expr, instance, mapFactory) = CreateForwardMap(profile, type);
+        /// <summary>
+        /// Creates map using factory methods.<br/>
+        /// Steps:<br/>
+        /// 1. <see cref="SetType(Type)"/><br/>
+        /// 2. <see cref="CreateForwardMap{TProfile}(TProfile, Type)"/><br/>
+        /// 3. <see cref="IgnoredProperties(Type)"/><br/>
+        /// 4. <see cref="TryCreateReverseMap{TProfile}(TProfile, Type, object, object?)"/><br/>
+        /// </summary>
+        /// <typeparam name="TProfile"></typeparam>
+        /// <param name="profile"></param>
+        /// <param name="annotatedType"></param>
+        public void CreateMap<TProfile>(TProfile profile, Type annotatedType) where TProfile : IAutoProfile
+        {
+            SetType(annotatedType);
+
+            var (expr, instance, mapFactory) = CreateForwardMap(profile, annotatedType);
 
             if (expr == null) return;
 
-            IgnoreProperties(type, expr);
+            IgnoreProperties(SourceType, DestinationType, expr);
 
-            CreateReverseMap(profile, type, expr, instance);
+            TryCreateReverseMap(profile, annotatedType, expr, instance);
         }
+
+        /// <summary>
+        /// Sets <see cref="SourceType"/> or <see cref="DestinationType"/> depending on attribute type.
+        /// </summary>
+        /// <param name="type"></param>
         protected abstract void SetType(Type type);
+
         protected abstract IMappingExpression CreateDefaultMap<TProfile>(TProfile profile, Type type) where TProfile : IAutoProfile;
         protected abstract IMappingExpression CreateDefaultReverseMap<TProfile>(TProfile profile, Type type, IMappingExpression expr) where TProfile : IAutoProfile;
 
@@ -108,12 +126,12 @@ namespace p1eXu5.AutoProfile.Attributes
         }
 
         /// <summary>
-        /// Returns pair array of a name annotated property and property info of a property in an opposite type.
+        /// Returns pair array of a name annotated property and property info of a property in an opposite annotatedType.
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="flags"><see cref="BindingFlags.GetProperty"/> or <see cref="BindingFlags.SetProperty"/> for annotated type properties.</param>
+        /// <param name="flags"><see cref="BindingFlags.GetProperty"/> or <see cref="BindingFlags.SetProperty"/> for annotated annotatedType properties.</param>
         /// <param name="oppositeType">Type in which map to or map from does.</param>
-        /// <param name="filter">For filter getters or setters for property in an opposite type.</param>
+        /// <param name="filter">For filter getters or setters for property in an opposite annotatedType.</param>
         /// <returns></returns>
         protected (PropertyInfo pi, PropertyInfo opi)[] FindOpposites(Type type, BindingFlags flags, Type oppositeType, Predicate<PropertyInfo> filter)
         {
@@ -151,22 +169,22 @@ namespace p1eXu5.AutoProfile.Attributes
         {
             object? expr = null;
             object? instance = null;
-            MethodInfo? mapFactory = null;
+            MethodInfo? mapFactoryMethodInfo = null;
 
             if (!String.IsNullOrWhiteSpace(MapFactory))
             {
                 if (MapFactoryType != null)
                 {
-                    mapFactory = MapFactoryType.GetMethod(MapFactory!, BindingFlags.Static | BindingFlags.Public);
+                    mapFactoryMethodInfo = MapFactoryType.GetMethod(MapFactory!, BindingFlags.Static | BindingFlags.Public);
                 }
                 else if (!type.IsInterface)
                 {
                     // if there are several methods with the same name then CS0108 compiler warning will be
-                    mapFactory = type.GetMethod(MapFactory!,
+                    mapFactoryMethodInfo = type.GetMethod(MapFactory!,
                         BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.Public);
                 }
 
-                if (mapFactory != null)
+                if (mapFactoryMethodInfo != null)
                 {
 
                     if (!type.IsInterface && MapFactoryType == null)
@@ -174,7 +192,7 @@ namespace p1eXu5.AutoProfile.Attributes
                         instance = Activator.CreateInstance(type);
                     }
 
-                    expr = mapFactory.Invoke(instance, new object[] { profile });
+                    expr = mapFactoryMethodInfo.Invoke(instance, new object[] { profile });
 
                     if (expr != null)
                     {
@@ -198,7 +216,7 @@ namespace p1eXu5.AutoProfile.Attributes
                 }
             }
 
-            if (mapFactory == null)
+            if (mapFactoryMethodInfo == null)
             {
                 expr = CreateDefaultMap(profile, type);
 
@@ -213,9 +231,11 @@ namespace p1eXu5.AutoProfile.Attributes
                 }
             }
 
-            return (expr, instance, mapFactory);
+            return (expr, instance, mapFactoryMethodInfo);
         }
-        private void CreateReverseMap<TProfile>(TProfile profile, Type type, object expression, object? instance) where TProfile : IAutoProfile
+        
+        
+        private void TryCreateReverseMap<TProfile>(TProfile profile, Type type, object expression, object? instance) where TProfile : IAutoProfile
         {
             object? expr = expression;
             MethodInfo? reverseMapFactory = null;
@@ -296,17 +316,19 @@ namespace p1eXu5.AutoProfile.Attributes
                     if (IncludeAllDerivedForReverse)
                     {
                         mi = expr!.GetType().GetMethod("IncludeAllDerived");
-                        mi?.Invoke(expr, null /*new object?[] { profile, type, expr }*/ );
+                        mi?.Invoke(expr, null /*new object?[] { profile, annotatedType, expr }*/ );
                     }
                 }
             }
         }
-        private string[] IgnoredProperties(Type type)
-        {
-            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
-                .Where(pi => pi.GetCustomAttributes<IgnoreAttribute>().Any()).Select(pi => pi.Name).ToArray();
-        }
-        private void IgnoreProperties(Type type, object expr)
+
+        /// <summary>
+        /// Configure property ignoring (<see cref="IProjectionMemberConfiguration.Ignore"/>) 
+        /// or disable validation (<see cref="ISourceMemberConfigurationExpression.DoNotValidate"/>)
+        /// </summary>
+        /// <param name="annotatedType"></param>
+        /// <param name="expr"> <see cref="IMappingExpression{TSource, TDestination}"/> instance. </param>
+        private void IgnoreProperties(Type sourceType, Type destinationType, object expr)
         {
             var mi = expr.GetType().GetMethod("ForMember",
                 new Type[] { typeof(string), typeof(Action<IMemberConfigurationExpression>) });
@@ -316,10 +338,9 @@ namespace p1eXu5.AutoProfile.Attributes
 
             if (mi != null)
             {
-
-                foreach (var propertyName in IgnoredProperties(type))
+                foreach (var propertyName in IgnoredProperties(sourceType))
                 {
-                    if (DestinationType.GetProperty(propertyName) != null)
+                    if (destinationType.GetProperty(propertyName) != null)
                     {
                         mi.Invoke(expr, new object[] { propertyName, new Action<IMemberConfigurationExpression>(opt => opt.Ignore()) });
                     }
@@ -328,8 +349,25 @@ namespace p1eXu5.AutoProfile.Attributes
                         smi?.Invoke(expr, new object[] { propertyName, new Action<ISourceMemberConfigurationExpression>(opt => opt.DoNotValidate()) });
                     }
                 }
-            }
 
+                foreach (var propertyName in IgnoredProperties(destinationType)) 
+                {
+                    if (sourceType.GetProperty(propertyName) != null) {
+                        mi.Invoke(expr, new object[] { propertyName, new Action<IMemberConfigurationExpression>(opt => opt.Ignore()) });
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        private string[] IgnoredProperties(Type type)
+        {
+            return type.GetProperties(BindingFlags.Instance | BindingFlags.Public)
+                .Where(pi => pi.GetCustomAttributes<IgnoreAttribute>().Any()).Select(pi => pi.Name).ToArray();
         }
 
         #endregion ----------------------------------------------------- methods

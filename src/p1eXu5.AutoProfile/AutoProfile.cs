@@ -32,47 +32,49 @@ namespace p1eXu5.AutoProfile
         #region ctor
 
         /// <summary>
-        /// Sets executing assembly to scanned assembly.
         /// Do not forget to call <see cref="Configure"/>.
         /// </summary>
-        /// <param name="serviceProvider"> <see cref="IServiceProvider"/> </param>
-        public AutoProfile(IServiceProvider serviceProvider)
-            : this(serviceProvider.GetRequiredService<ILogger>())
-        { }
-
+        /// <param name="assembly"> Scanned assembly. </param>
+        /// <param name="logger"> Logger </param>
+        public AutoProfile(Assembly assembly, ILogger logger, AutoProfileOptions autoProfileOptions = default)
+        {
+            this._assembly = assembly;
+            Logger = logger;
+            AutoProfileOptions = autoProfileOptions;
+        }
 
         /// <summary>
         /// Sets executing assembly to scanned assembly.
         /// Do not forget to call <see cref="Configure"/>.
         /// </summary>
         /// <param name="logger"></param>
-        public AutoProfile(ILogger logger)
-            : this(Assembly.GetExecutingAssembly(), logger)
+        public AutoProfile(ILogger logger, AutoProfileOptions autoProfileOptions = default)
+            : this(Assembly.GetExecutingAssembly(), logger, autoProfileOptions)
         { }
+        
+        
+        /// <summary>
+        /// Sets executing assembly to scanned assembly.
+        /// Do not forget to call <see cref="Configure"/>.
+        /// </summary>
+        /// <param name="serviceProvider"> <see cref="IServiceProvider"/> </param>
+        public AutoProfile(IServiceProvider serviceProvider, AutoProfileOptions autoProfileOptions = default)
+            : this(serviceProvider.GetRequiredService<ILogger>(), autoProfileOptions)
+        { }
+
 
         /// <summary>
         /// Do not forget to call <see cref="Configure"/>.
         /// </summary>
         /// <param name="assemblyType"> Type in a scanned assembly. </param>
         /// <param name="logger"> Logger. </param>
-        public AutoProfile(Type assemblyType, ILogger logger)
+        public AutoProfile(Type assemblyType, ILogger logger, AutoProfileOptions autoProfileOptions = default)
             : this(
                 Assembly.GetAssembly(assemblyType) 
                     ?? throw new ArgumentException("Type assembly is null.",
-                nameof(assemblyType)), logger)
+                nameof(assemblyType)), logger, autoProfileOptions)
         { }
 
-
-        /// <summary>
-        /// Do not forget to call <see cref="Configure"/>.
-        /// </summary>
-        /// <param name="assembly"> Scanned assembly. </param>
-        /// <param name="logger"> Logger </param>
-        public AutoProfile(Assembly assembly, ILogger logger)
-        {
-            this._assembly = assembly;
-            Logger = logger;
-        }
 
         #endregion ----------------------------------------------------- ctor
 
@@ -84,6 +86,8 @@ namespace p1eXu5.AutoProfile
         public ILogger Logger { get; }
 
         #endregion ----------------------------------------------------- IAutoProfile
+
+        protected AutoProfileOptions AutoProfileOptions { get; }
 
 
         #region methods
@@ -99,7 +103,10 @@ namespace p1eXu5.AutoProfile
                 Setup();
                 CreateCommonMaps();
 
-                ProcessMapAttributesFrom(_assembly);
+                if (!AutoProfileOptions.NotProcessMapAttributesFromAssembly) {
+                    ProcessMapAttributesFrom(_assembly);
+                }
+
                 _areMapsScanned = true;
             }
 
@@ -128,18 +135,18 @@ namespace p1eXu5.AutoProfile
         }
 
         /// <summary>
-        /// Checks <see cref="MapAttribute"/>s on <paramref name="type"/> and calls <see cref="Profile.CreateMap(System.Type,System.Type)"/>.
+        /// Checks <see cref="MapAttribute"/>s on <paramref name="annotatedType"/> and calls <see cref="Profile.CreateMap(System.Type,System.Type)"/>.
         /// <para>
         /// Is used in tests.
         /// </para>
         /// </summary>
-        /// <param name="type"></param>
-        public void CreateMaps(Type type)
+        /// <param name="annotatedType"></param>
+        public void CreateMaps(Type annotatedType)
         {
-            var attributes = type.GetCustomAttributes<MapAttribute>().ToArray();
+            var attributes = annotatedType.GetCustomAttributes<MapAttribute>().ToArray();
             foreach (MapAttribute mapAttribute in attributes)
             {
-                mapAttribute.CreateMap(this, type);
+                mapAttribute.CreateMap(this, annotatedType);
             }
         }
 
