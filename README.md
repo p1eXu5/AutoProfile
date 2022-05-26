@@ -21,15 +21,6 @@ AutoProfile.
     Install-Package AutoMapper.Extensions.Microsoft.DependencyInjection -Version 11.0.0
 
     ```csharp
-    services.AddAutoMapper( (serviceProvider, cfg) => {
-        var logger = serviceProvider.GetRequiredService<ILogger<AutoProfile>>();
-        var profile = new AutoProfile( logger );
-        cfg.AddProfile( profile.Configure() );
-    }, new Type[0] );
-    ```
-    
-    Blazor:
-    ```csharp
     builder.Services.AddAutoMapper((serviceProvider, cfg) => { 
         var logger = serviceProvider.GetRequiredService<ILogger<AutoProfile>>();
         var profile = new AutoProfile(typeof(Model), logger);
@@ -37,18 +28,7 @@ AutoProfile.
     }, new Type[0]);
     ```
 
-2. Plain creation:
-
-    ```csharp
-    AutoProfile autoProfile = new AutoProfile( typeof(Model), Mock.Of< ILogger >() );
-
-    var conf = new MapperConfiguration( cfg => cfg.AddProfile( autoProfile.Configure() ) );
-    conf.AssertConfigurationIsValid();
-
-    Mapper = conf.CreateMapper();
-    ```
-
-3. For testing of certain maps:
+2. For testing of certain maps:
 
     ```csharp
     public abstract class AutoMapperTestsBase
