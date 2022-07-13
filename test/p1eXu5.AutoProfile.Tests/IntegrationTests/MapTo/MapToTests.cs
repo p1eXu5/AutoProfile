@@ -14,8 +14,8 @@ public class MapToTests : AutoMapperTestsBase
             typeof(MasterSimpleRecordModel),
             typeof(MasterSimpleRecordStructModel),
             typeof(Ignored.MasterSimpleClassModel),
-            typeof(Opposite.DestinationMasterSimpleClassModel),
-            typeof(Opposite.SourceMasterSimpleClassModel),
+            typeof(Opposite.MasterSimpleClassModelWithDestinationMemberList),
+            typeof(Opposite.MasterSimpleClassModelWithSourceMemberList),
         };
 
 
@@ -61,7 +61,7 @@ public class MapToTests : AutoMapperTestsBase
     public void MasterModelWithOppositeProperty_MemberListIsDestination_MappingProperty()
     {
         // Arrange:
-        var master = AutoFaker.Generate<Opposite.DestinationMasterSimpleClassModel>();
+        var master = AutoFaker.Generate<Opposite.MasterSimpleClassModelWithDestinationMemberList>();
 
         // Action:
         ISimpleClassModel slave = Mapper.Map<SlaveSimpleClassModel>(master);
@@ -74,7 +74,7 @@ public class MapToTests : AutoMapperTestsBase
     public void MasterModelWithOppositeProperty_MemberListIsSource_MappingProperty()
     {
         // Arrange:
-        var master = AutoFaker.Generate<Opposite.SourceMasterSimpleClassModel>();
+        var master = AutoFaker.Generate<Opposite.MasterSimpleClassModelWithSourceMemberList>();
 
         // Action:
         ISimpleClassModel slave = Mapper.Map<SlaveSimpleClassModel>(master);
@@ -87,7 +87,7 @@ public class MapToTests : AutoMapperTestsBase
     public void MasterModelWithOppositeProperty_MemberListIsDestination_ToRecord_MappingProperty()
     {
         // Arrange:
-        var master = AutoFaker.Generate<Opposite.DestinationMasterSimpleClassModel>();
+        var master = AutoFaker.Generate<Opposite.MasterSimpleClassModelWithDestinationMemberList>();
 
         // Action:
         ISimpleClassModel slave = Mapper.Map<SlaveSimpleRecordModel>(master);

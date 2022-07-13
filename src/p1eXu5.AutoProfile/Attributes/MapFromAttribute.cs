@@ -40,7 +40,7 @@ namespace p1eXu5.AutoProfile.Attributes
         {
             var expr = profile.Instance.CreateMap(SourceType, DestinationType, MemberList);
 
-            var propertyPairs = FindOpposites(DestinationType, BindingFlags.SetProperty, SourceType, pi => pi.GetMethod != null);
+            var propertyPairs = FindOpposites(DestinationType, BindingFlags.Default, SourceType, pi => pi.GetMethod != null);
 
 
             if (MemberList.Destination == MemberList) 
@@ -64,7 +64,7 @@ namespace p1eXu5.AutoProfile.Attributes
         {
             expr = expr.ReverseMap();
 
-            var propertyPairs = FindOpposites(type, BindingFlags.GetProperty, Source, pi => pi.SetMethod != null);
+            var propertyPairs = FindOpposites(type, BindingFlags.GetProperty, Source, pi => true);
 
             foreach (var pair in propertyPairs)
             {

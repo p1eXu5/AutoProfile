@@ -13,6 +13,7 @@ public class MapFromTests : AutoMapperTestsBase
             typeof(SlaveSimpleRecordModel),
             typeof(SlaveSimpleRecordStructModel),
             typeof(Ignored.SlaveSimpleClassModel),
+            typeof(Ignored.WithNotExistedInMasterPropSlaveSimpleClassModel),
             typeof(Opposite.DestinationSlaveSimpleClassModel),
             typeof(Opposite.SourceSlaveSimpleClassModel),
         };
@@ -54,6 +55,19 @@ public class MapFromTests : AutoMapperTestsBase
 
         // Assert:
         slave.Should().NotBeEquivalentTo(master);
+    }
+
+    [Test]
+    public void SlaveModelWithIgnoredNotExistedInMasterProperty_ByDefault_NotMappingProperty()
+    {
+        // Arrange:
+        ISimpleClassModel master = AutoFaker.Generate<MasterSimpleClassModel>();
+
+        // Action:
+        ISimpleClassModel slave = Mapper.Map<Ignored.WithNotExistedInMasterPropSlaveSimpleClassModel>(master);
+
+        // Assert:
+        slave.Should().BeEquivalentTo(master);
     }
 
     [Test]

@@ -106,6 +106,22 @@ public class MapFromTestsTypes
             public double DoubleProp { get; init; }
             public TestEnum EnumProp { get; init; }
         }
+
+
+        [MapFrom(typeof(MapFromTestsTypes.MasterSimpleClassModel))]
+        public class WithNotExistedInMasterPropSlaveSimpleClassModel : ISimpleClassModel
+        {
+            public int IntProp { get; init; }
+
+            public string StringProp { get; init; } = default!;
+
+            public bool BoolProp { get; init; }
+            public double DoubleProp { get; init; }
+            public TestEnum EnumProp { get; init; }
+
+            [Ignore]
+            public string NotExistedStringProp { get; init; } = default!;
+        }
     }
 
     public static class Opposite

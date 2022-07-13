@@ -330,19 +330,19 @@ namespace p1eXu5.AutoProfile.Attributes
         /// <param name="expr"> <see cref="IMappingExpression{TSource, TDestination}"/> instance. </param>
         private void IgnoreProperties(Type sourceType, Type destinationType, object expr)
         {
-            var mi = expr.GetType().GetMethod("ForMember",
+            var forMemberMethodInfo = expr.GetType().GetMethod("ForMember",
                 new Type[] { typeof(string), typeof(Action<IMemberConfigurationExpression>) });
 
             var smi = expr.GetType().GetMethod("ForSourceMember",
                 new Type[] { typeof(string), typeof(Action<ISourceMemberConfigurationExpression>) });
 
-            if (mi != null)
+            if (forMemberMethodInfo != null)
             {
                 foreach (var propertyName in IgnoredProperties(sourceType))
                 {
                     if (destinationType.GetProperty(propertyName) != null)
                     {
-                        mi.Invoke(expr, new object[] { propertyName, new Action<IMemberConfigurationExpression>(opt => opt.Ignore()) });
+                        forMemberMethodInfo.Invoke(expr, new object[] { propertyName, new Action<IMemberConfigurationExpression>(opt => opt.Ignore()) });
                     }
                     else
                     {
@@ -352,9 +352,9 @@ namespace p1eXu5.AutoProfile.Attributes
 
                 foreach (var propertyName in IgnoredProperties(destinationType)) 
                 {
-                    if (sourceType.GetProperty(propertyName) != null) {
-                        mi.Invoke(expr, new object[] { propertyName, new Action<IMemberConfigurationExpression>(opt => opt.Ignore()) });
-                    }
+                    //if (sourceType.GetProperty(propertyName) != null) {
+                    forMemberMethodInfo.Invoke(expr, new object[] { propertyName, new Action<IMemberConfigurationExpression>(opt => opt.Ignore()) });
+                    //}
                 }
             }
         }

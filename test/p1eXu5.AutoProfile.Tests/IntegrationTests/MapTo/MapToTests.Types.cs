@@ -37,7 +37,7 @@ public class MapToTestsTypes
         public TestEnum EnumProp { get; init; }
     }
 
-    [MapTo(typeof(SlaveSimpleClassModel))]
+    [MapTo(typeof(SlaveSimpleStructModel))]
     public struct MasterSimpleStructModel : ISimpleClassModel
     {
         public int IntProp { get; init; }
@@ -47,7 +47,7 @@ public class MapToTestsTypes
         public TestEnum EnumProp { get; init; }
     }
 
-    [MapTo(typeof(SlaveSimpleClassModel))]
+    [MapTo(typeof(SlaveSimpleRecordModel))]
     public record MasterSimpleRecordModel(
         int IntProp,
         string StringProp,
@@ -56,7 +56,9 @@ public class MapToTestsTypes
         TestEnum EnumProp
     ) : ISimpleClassModel;
 
-    [MapTo(typeof(SlaveSimpleClassModel))]
+
+
+    [MapTo(typeof(SlaveSimpleRecordStructModel))]
     public record struct MasterSimpleRecordStructModel(
         int IntProp,
         string StringProp,
@@ -78,37 +80,44 @@ public class MapToTestsTypes
         public TestEnum EnumProp { get; init; }
     }
 
+
+    public struct SlaveSimpleStructModel : ISimpleClassModel
+    {
+        public int IntProp { get; init; }
+        public string StringProp { get; init; }
+        public bool BoolProp { get; init; }
+        public double DoubleProp { get; init; }
+        public TestEnum EnumProp { get; init; }
+    }
+    
     public record SlaveSimpleRecordModel : ISimpleClassModel
     {
-
-        public SlaveSimpleRecordModel(int intProp,
-            bool boolProp,
-            double doubleProp,
-            TestEnum enumProp,
-            string stringProp)
-        {
-            IntProp = intProp;
-            BoolProp = boolProp;
-            DoubleProp = doubleProp;
-            EnumProp = enumProp;
-            StringProp = stringProp;
-        }
-
-        public int IntProp { get; }
-        public bool BoolProp { get; }
-        public double DoubleProp { get; }
-        public TestEnum EnumProp { get; }
-        public string StringProp { get; private init; }
+        public int IntProp { get; init; }
+        public string StringProp { get; init; } = default!;
+        public bool BoolProp { get; init; }
+        public double DoubleProp { get; init; }
+        public TestEnum EnumProp { get; init; }
     }
 
-    //public record SlaveSimpleRecordModel : ISimpleClassModel
-    //{
-    //    public int IntProp { get; init; }
-    //    public string StringProp { get; init; } = default!;
-    //    public bool BoolProp { get; init; }
-    //    public double DoubleProp { get; init; }
-    //    public TestEnum EnumProp { get; init; }
-    //}
+
+
+    public record struct SlaveSimpleRecordStructModel(
+        int IntProp,
+        string StringProp,
+        bool BoolProp,
+        double DoubleProp,
+        TestEnum EnumProp
+    ) : ISimpleClassModel;
+
+
+    // Error: no available constructor!
+    public record SlaveSimpleRecordModelWithCtor(
+        int IntProp,
+        string StringProp,
+        bool BoolProp,
+        double DoubleProp,
+        TestEnum EnumProp
+    ) : ISimpleClassModel;
 
 
     public static class Ignored
@@ -144,7 +153,7 @@ public class MapToTestsTypes
     {
         [MapTo(typeof(MapToTestsTypes.SlaveSimpleClassModel), MemberList = MemberList.Destination)]
         [MapTo(typeof(MapToTestsTypes.SlaveSimpleRecordModel), MemberList = MemberList.Destination)]
-        public class DestinationMasterSimpleClassModel : ISimpleClassModelBase
+        public class MasterSimpleClassModelWithDestinationMemberList : ISimpleClassModelBase
         {
             public int IntProp { get; init; }
 
@@ -157,13 +166,13 @@ public class MapToTestsTypes
         }
 
         [MapTo(typeof(MapToTestsTypes.SlaveSimpleClassModel), MemberList = MemberList.Source)]
-        public class SourceMasterSimpleClassModel : ISimpleClassModelBase
+        public class MasterSimpleClassModelWithSourceMemberList : ISimpleClassModelBase
         {
             public int IntProp { get; init; }
-
+        
             [Opposite(nameof(MapToTestsTypes.SlaveSimpleClassModel.StringProp))]
             public string StringAnotherProp { get; init; } = default!;
-
+        
             public bool BoolProp { get; init; }
             public double DoubleProp { get; init; }
             public TestEnum EnumProp { get; init; }

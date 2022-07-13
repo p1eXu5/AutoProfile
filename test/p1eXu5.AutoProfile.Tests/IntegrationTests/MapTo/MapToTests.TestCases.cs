@@ -18,17 +18,17 @@ public static class TestCases
 
             yield return
                 new TestCaseData(
-                    new object[] { AutoFaker.Generate<MasterSimpleStructModel>(), typeof(MasterSimpleStructModel), typeof(SlaveSimpleClassModel) }
+                    new object[] { AutoFaker.Generate<MasterSimpleStructModel>(), typeof(MasterSimpleStructModel), typeof(SlaveSimpleStructModel) }
                 ).SetName("struct map");
 
             yield return
                 new TestCaseData(
-                    new object[] { AutoFaker.Generate<MasterSimpleRecordModel>(), typeof(MasterSimpleRecordModel), typeof(SlaveSimpleClassModel) }
+                    new object[] { AutoFaker.Generate<MasterSimpleRecordModel>(), typeof(MasterSimpleRecordModel), typeof(SlaveSimpleRecordModel) }
                 ).SetName("record map");
 
             yield return
                 new TestCaseData(
-                    new object[] { AutoFaker.Generate<MasterSimpleRecordStructModel>(), typeof(MasterSimpleRecordStructModel), typeof(SlaveSimpleClassModel) }
+                    new object[] { AutoFaker.Generate<MasterSimpleRecordStructModel>(), typeof(MasterSimpleRecordStructModel), typeof(SlaveSimpleRecordStructModel) }
                 ).SetName("record struct map");
         }
     }
