@@ -15,7 +15,8 @@ public abstract class AutoMapperTestsBase
             MockLoggerFactories.GetMockILogger<AutoProfile>(TestContext.WriteLine).Object,
             new AutoProfileOptions(NotProcessMapAttributesFromAssembly: true));
 
-        foreach (var type in MappingTypes) {
+        foreach (var type in MappingTypes)
+        {
             autoProfile.CreateMaps(type);
         }
 

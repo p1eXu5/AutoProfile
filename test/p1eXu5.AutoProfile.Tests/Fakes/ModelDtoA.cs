@@ -1,16 +1,16 @@
-﻿using System;
-
-#nullable disable
+﻿#nullable disable
 
 namespace p1eXu5.AutoProfile.Tests.Fakes
 {
     using Attributes;
 
-    [ MapFrom( typeof(Model) ) ]
+    [MapFrom(typeof(Model))]
     public class ModelDtoA
     {
         public int Id { get; set; }
+
         public string Name { get; set; }
+
         public Int64 Date { get; set; }
     }
 }

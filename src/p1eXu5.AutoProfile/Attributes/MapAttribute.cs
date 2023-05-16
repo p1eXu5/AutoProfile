@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
 using AutoMapper;
 using AutoMapper.Configuration.Annotations;
 
@@ -9,7 +7,7 @@ namespace p1eXu5.AutoProfile.Attributes
     using AutoMapper.Configuration;
     using Contracts;
 
-    [AttributeUsage( AttributeTargets.Class, AllowMultiple = true, Inherited = false )]
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     public abstract class MapAttribute : Attribute
     {
         #region properties 
@@ -182,6 +180,18 @@ namespace p1eXu5.AutoProfile.Attributes
                     // if there are several methods with the same name then CS0108 compiler warning will be
                     mapFactoryMethodInfo = type.GetMethod(MapFactory!,
                         BindingFlags.Instance | BindingFlags.FlattenHierarchy | BindingFlags.Public);
+
+                    if (mapFactoryMethodInfo is null)
+                    {
+                        mapFactoryMethodInfo = type.GetMethod(MapFactory!,
+                            BindingFlags.Static | BindingFlags.Public);
+
+                        if (mapFactoryMethodInfo is not null)
+                        {
+                            MapFactoryType = type;
+                        }
+
+                    }
                 }
 
                 if (mapFactoryMethodInfo != null)
@@ -233,8 +243,8 @@ namespace p1eXu5.AutoProfile.Attributes
 
             return (expr, instance, mapFactoryMethodInfo);
         }
-        
-        
+
+
         private void TryCreateReverseMap<TProfile>(TProfile profile, Type type, object expression, object? instance) where TProfile : IAutoProfile
         {
             object? expr = expression;
@@ -242,20 +252,19 @@ namespace p1eXu5.AutoProfile.Attributes
 
             if (!String.IsNullOrWhiteSpace(ReverseMapFactory))
             {
-                if (!type.IsInterface)
+                if (MapFactoryType != null)
+                {
+                    reverseMapFactory = GetReverseMapFactoryMethodInfo(MapFactoryType, expr!.GetType());
+                }
+                else if (!type.IsInterface)
                 {
                     // if there are several methods with the same name then CS0108 compiler warning will be
                     reverseMapFactory = GetReverseMapFactoryMethodInfo(type, expr!.GetType());
                 }
-                else if (MapFactoryType != null)
-                {
-                    reverseMapFactory = GetReverseMapFactoryMethodInfo(MapFactoryType, expr!.GetType());
-                }
-
 
                 if (instance == null)
                 {
-                    if (!type.IsInterface)
+                    if (!type.IsInterface && MapFactoryType == null)
                     {
                         instance = Activator.CreateInstance(type);
                     }
@@ -350,7 +359,7 @@ namespace p1eXu5.AutoProfile.Attributes
                     }
                 }
 
-                foreach (var propertyName in IgnoredProperties(destinationType)) 
+                foreach (var propertyName in IgnoredProperties(destinationType))
                 {
                     //if (sourceType.GetProperty(propertyName) != null) {
                     forMemberMethodInfo.Invoke(expr, new object[] { propertyName, new Action<IMemberConfigurationExpression>(opt => opt.Ignore()) });

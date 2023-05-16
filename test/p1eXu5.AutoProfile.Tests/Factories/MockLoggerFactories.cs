@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Moq;
-using System;
 
 namespace p1eXu5.AutoProfile.Tests.Factories
 {
@@ -21,7 +20,8 @@ namespace p1eXu5.AutoProfile.Tests.Factories
                    //It.IsAny<Func<object, Exception, string>>()
                    )
                 )
-                .Callback<IInvocation>(invocation => {
+                .Callback<IInvocation>(invocation =>
+                {
                     var logLevel = (LogLevel)invocation.Arguments[0]; // The first two will always be whatever is specified in the setup above
                     _ = (EventId)invocation.Arguments[1];  // so I'm not sure you would ever want to actually use them
                     var state = invocation.Arguments[2];
@@ -51,7 +51,8 @@ namespace p1eXu5.AutoProfile.Tests.Factories
                        It.Is<It.IsAnyType>((v, t) => true),
                        It.IsAny<Exception>(),
                        It.Is<Func<It.IsAnyType, Exception?, string>>((v, t) => true)))
-                .Callback<IInvocation>(invocation => {
+                .Callback<IInvocation>(invocation =>
+                {
                     var logLevel = (LogLevel)invocation.Arguments[0];	// The first two will always be whatever is specified in the setup above
                     _ = (EventId)invocation.Arguments[1];				// so I'm not sure you would ever want to actually use them
                     var state = invocation.Arguments[2];

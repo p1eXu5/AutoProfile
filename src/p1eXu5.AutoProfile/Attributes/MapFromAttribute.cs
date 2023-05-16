@@ -1,10 +1,9 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using AutoMapper;
 
 namespace p1eXu5.AutoProfile.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Struct, AllowMultiple = true, Inherited = false )]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Struct, AllowMultiple = true, Inherited = false)]
     public class MapFromAttribute : MapAttribute
     {
         #region ctor
@@ -26,16 +25,20 @@ namespace p1eXu5.AutoProfile.Attributes
 
         #region methods
         public override MemberList MemberList { get; set; } = MemberList.Destination;
+
         protected override Type DestinationType { get; set; } = default!;
+
         protected override Type SourceType
         {
             get => Source;
             set => throw new InvalidOperationException($"Cannot set {nameof(DestinationType)} in the {nameof(MapToAttribute)}");
         }
+
         protected override void SetType(Type type)
         {
             DestinationType = type;
         }
+
         protected override IMappingExpression CreateDefaultMap<TProfile>(TProfile profile)
         {
             var expr = profile.Instance.CreateMap(SourceType, DestinationType, MemberList);
@@ -43,15 +46,16 @@ namespace p1eXu5.AutoProfile.Attributes
             var propertyPairs = FindOpposites(DestinationType, BindingFlags.Default, SourceType, pi => pi.GetMethod != null);
 
 
-            if (MemberList.Destination == MemberList) 
+            if (MemberList.Destination == MemberList)
             {
                 foreach (var pair in propertyPairs)
                 {
                     expr.ForMember(pair.pi.Name, opt => opt.MapFrom((s, d) => pair.opi.GetMethod!.Invoke(s, null)));
                 }
             }
-            else {
-                foreach (var pair in propertyPairs) 
+            else
+            {
+                foreach (var pair in propertyPairs)
                 {
                     expr.ForMember(pair.pi.Name, opt => opt.MapFrom((s, d) => pair.opi.GetMethod!.Invoke(s, null)));
                     expr.ForSourceMember(pair.opi.Name, opt => opt.DoNotValidate());
@@ -60,6 +64,7 @@ namespace p1eXu5.AutoProfile.Attributes
 
             return expr;
         }
+
         protected override IMappingExpression CreateDefaultReverseMap<TProfile>(TProfile profile, Type type, IMappingExpression expr)
         {
             expr = expr.ReverseMap();

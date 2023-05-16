@@ -2,7 +2,6 @@
 
 using IgnoreAttribute = AutoMapper.Configuration.Annotations.IgnoreAttribute;
 
-
 public class MapFromTestsTypes
 {
     public enum TestEnum
@@ -12,12 +11,14 @@ public class MapFromTestsTypes
         Three
     }
 
-
     public interface ISimpleClassModelBase
     {
         int IntProp { get; }
+
         bool BoolProp { get; }
+
         double DoubleProp { get; }
+
         TestEnum EnumProp { get; }
     }
 
@@ -31,9 +32,13 @@ public class MapFromTestsTypes
     public class SlaveSimpleClassModel : ISimpleClassModel
     {
         public int IntProp { get; init; }
+
         public string StringProp { get; init; } = default!;
+
         public bool BoolProp { get; init; }
+
         public double DoubleProp { get; init; }
+
         public TestEnum EnumProp { get; init; }
     }
 
@@ -41,9 +46,13 @@ public class MapFromTestsTypes
     public struct SlaveSimpleStructModel : ISimpleClassModel
     {
         public int IntProp { get; init; }
+
         public string StringProp { get; init; }
+
         public bool BoolProp { get; init; }
+
         public double DoubleProp { get; init; }
+
         public TestEnum EnumProp { get; init; }
     }
 
@@ -65,16 +74,16 @@ public class MapFromTestsTypes
         TestEnum EnumProp
     ) : ISimpleClassModel;
 
-
-
-
-
     public class MasterSimpleClassModel : ISimpleClassModel
     {
         public int IntProp { get; init; }
+
         public string StringProp { get; init; } = default!;
+
         public bool BoolProp { get; init; }
+
         public double DoubleProp { get; init; }
+
         public TestEnum EnumProp { get; init; }
     }
 
@@ -89,10 +98,11 @@ public class MapFromTestsTypes
             public string StringProp { get; init; } = default!;
 
             public bool BoolProp { get; init; }
+
             public double DoubleProp { get; init; }
+
             public TestEnum EnumProp { get; init; }
         }
-
 
         [MapFrom(typeof(MapFromTestsTypes.MasterSimpleClassModel))]
         public class SlaveSimpleClassModel : ISimpleClassModel
@@ -103,10 +113,12 @@ public class MapFromTestsTypes
             public string StringProp { get; init; } = default!;
 
             public bool BoolProp { get; init; }
-            public double DoubleProp { get; init; }
-            public TestEnum EnumProp { get; init; }
-        }
 
+            public double DoubleProp { get; init; }
+
+            public TestEnum EnumProp { get; init; }
+
+        }
 
         [MapFrom(typeof(MapFromTestsTypes.MasterSimpleClassModel))]
         public class WithNotExistedInMasterPropSlaveSimpleClassModel : ISimpleClassModel
@@ -116,7 +128,9 @@ public class MapFromTestsTypes
             public string StringProp { get; init; } = default!;
 
             public bool BoolProp { get; init; }
+
             public double DoubleProp { get; init; }
+
             public TestEnum EnumProp { get; init; }
 
             [Ignore]
@@ -135,7 +149,9 @@ public class MapFromTestsTypes
             public string StringAnotherProp { get; init; } = default!;
 
             public bool BoolProp { get; init; }
+
             public double DoubleProp { get; init; }
+
             public TestEnum EnumProp { get; init; }
         }
 
@@ -148,7 +164,9 @@ public class MapFromTestsTypes
             public string StringAnotherProp { get; init; } = default!;
 
             public bool BoolProp { get; init; }
+
             public double DoubleProp { get; init; }
+
             public TestEnum EnumProp { get; init; }
         }
     }

@@ -1,11 +1,10 @@
-﻿using System;
-using System.Reflection;
+﻿using System.Reflection;
 using AutoMapper;
 
 namespace p1eXu5.AutoProfile.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Struct, AllowMultiple = true, Inherited = false )]
-    public class MapToAttribute: MapAttribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Struct, AllowMultiple = true, Inherited = false)]
+    public class MapToAttribute : MapAttribute
     {
         #region ctor
         public MapToAttribute(Type target)
@@ -42,16 +41,17 @@ namespace p1eXu5.AutoProfile.Attributes
 
             var propertyPairs = FindOpposites(SourceType, BindingFlags.GetProperty, DestinationType, pi => true);
 
-            if (MemberList.Destination == MemberList) 
+            if (MemberList.Destination == MemberList)
             {
                 foreach (var pair in propertyPairs)
                 {
                     expr.ForMember(pair.opi.Name, opt => opt.MapFrom((s, d) => pair.pi.GetMethod!.Invoke(s, null)));
                 }
             }
-            else 
+            else
             {
-                foreach (var pair in propertyPairs) {
+                foreach (var pair in propertyPairs)
+                {
                     expr.ForMember(pair.opi.Name, opt => opt.MapFrom((s, d) => pair.pi.GetMethod!.Invoke(s, null)));
                     expr.ForSourceMember(pair.pi.Name, opt => opt.DoNotValidate());
                 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
+﻿using AutoMapper;
 
 namespace p1eXu5.AutoProfile
 {
@@ -8,12 +6,12 @@ namespace p1eXu5.AutoProfile
     ///  To create <see cref="Mapper"/> call <see cref="SetMapperConfiguration"/>.
     /// </summary>
     /// <typeparam name="TProfile"></typeparam>
-    public abstract class MapConfigurationTestsBase< TProfile > where TProfile : AutoProfile
+    public abstract class MapConfigurationTestsBase<TProfile> where TProfile : AutoProfile
     {
         public MapperConfiguration MapperConfiguration { get; private set; } = default!;
         public IMapper Mapper { get; private set; } = default!;
-        protected abstract IEnumerable< Type > MappedTypes { get; }
-        
+        protected abstract IEnumerable<Type> MappedTypes { get; }
+
 
         /// <summary>
         /// Instantiates <see cref="MapperConfiguration"/>, check if configuration is valid, creates <see cref="Mapper"/>.
@@ -21,16 +19,17 @@ namespace p1eXu5.AutoProfile
         protected void SetMapperConfiguration()
         {
             AutoProfile profile = GetProfile();
-            CreateTestMaps( profile );
+            CreateTestMaps(profile);
 
-            MapperConfiguration = new MapperConfiguration( cfg => {
-                cfg.AddProfile( GetProfile() );
-            } );
+            MapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile(GetProfile());
+            });
 
 
             MapperConfiguration.AssertConfigurationIsValid();
 
-            Mapper = new Mapper( MapperConfiguration );
+            Mapper = new Mapper(MapperConfiguration);
         }
 
 
@@ -51,10 +50,11 @@ namespace p1eXu5.AutoProfile
         /// Enumerates <see cref="MappedTypes"/> and invokes <see cref="AutoProfile.CreateMaps"/> method.
         /// </summary>
         /// <param name="profile"></param>
-        protected virtual void CreateTestMaps( AutoProfile profile )
+        protected virtual void CreateTestMaps(AutoProfile profile)
         {
-            foreach ( var mappedType in MappedTypes ) {
-                profile.CreateMaps( mappedType );
+            foreach (var mappedType in MappedTypes)
+            {
+                profile.CreateMaps(mappedType);
             }
         }
 
