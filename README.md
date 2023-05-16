@@ -192,7 +192,7 @@ public class UserUpdateDto : UserDto, IEntityIdDto<string>
 
 <br/>
 
-## Using
+## Usage cases
 
 <br/>
 
