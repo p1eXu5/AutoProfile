@@ -1,6 +1,4 @@
-﻿using p1eXu5.AutoProfile.Tests.IntegrationTests.MapTo;
-using System.Collections;
-using static p1eXu5.AutoProfile.Tests.IntegrationTests.MapTo.MapToTestsTypes;
+﻿using static p1eXu5.AutoProfile.Tests.IntegrationTests.MapTo.MapToTestsTypes;
 
 namespace p1eXu5.AutoProfile.Tests.IntegrationTests.MapTo;
 
@@ -21,7 +19,9 @@ public class MapToTests : AutoMapperTestsBase
 
     [TestCaseSource(typeof(TestCases), nameof(TestCases.SimpleTypeCases))]
     public void MapToAttributeWithNoAdditionalSettings_DestinationTypeWithTheSameProperties_MapsAllSourceProperties(
-        object masterModel, Type sourceType, Type destinationType)
+        object masterModel,
+        Type sourceType,
+        Type destinationType)
     {
         // Arrange:
         // Action:

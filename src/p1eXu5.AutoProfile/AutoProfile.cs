@@ -1,11 +1,7 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿using System.Reflection;
+using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
-using AutoMapper;
-using System.Runtime.CompilerServices;
 
 // ReSharper disable once IdentifierTypo
 namespace p1eXu5.AutoProfile
@@ -51,8 +47,8 @@ namespace p1eXu5.AutoProfile
         public AutoProfile(ILogger logger, AutoProfileOptions autoProfileOptions = default)
             : this(Assembly.GetExecutingAssembly(), logger, autoProfileOptions)
         { }
-        
-        
+
+
         /// <summary>
         /// Sets executing assembly to scanned assembly.
         /// Do not forget to call <see cref="Configure"/>.
@@ -70,9 +66,10 @@ namespace p1eXu5.AutoProfile
         /// <param name="logger"> Logger. </param>
         public AutoProfile(Type assemblyType, ILogger logger, AutoProfileOptions autoProfileOptions = default)
             : this(
-                Assembly.GetAssembly(assemblyType) 
-                    ?? throw new ArgumentException("Type assembly is null.",
-                nameof(assemblyType)), logger, autoProfileOptions)
+                  Assembly.GetAssembly(assemblyType) ?? throw new ArgumentException("Type assembly is null.",
+                  nameof(assemblyType)),
+                  logger,
+                  autoProfileOptions)
         { }
 
 
@@ -103,7 +100,8 @@ namespace p1eXu5.AutoProfile
                 Setup();
                 CreateCommonMaps();
 
-                if (!AutoProfileOptions.NotProcessMapAttributesFromAssembly) {
+                if (!AutoProfileOptions.NotProcessMapAttributesFromAssembly)
+                {
                     ProcessMapAttributesFrom(_assembly);
                 }
 

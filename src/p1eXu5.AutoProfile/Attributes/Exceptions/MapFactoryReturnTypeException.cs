@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace p1eXu5.AutoProfile.Attributes.Exceptions
+﻿namespace p1eXu5.AutoProfile.Attributes.Exceptions
 {
     class MapFactoryReturnTypeException : MissingMethodException
     {
@@ -8,16 +6,16 @@ namespace p1eXu5.AutoProfile.Attributes.Exceptions
             : base()
         { }
 
-        public MapFactoryReturnTypeException( string? message )
-            : base( message )
+        public MapFactoryReturnTypeException(string? message)
+            : base(message)
         { }
 
         public MapFactoryReturnTypeException(string? message, Exception? inner)
-            :base( message, inner)
+            : base(message, inner)
         { }
 
         public MapFactoryReturnTypeException(string? className, string? methodName)
-            :base( className, methodName )
+            : base(className, methodName)
         { }
     }
 }

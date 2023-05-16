@@ -1,11 +1,5 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Extensions.Logging;
-
-using NUnit.Framework;
+﻿using Microsoft.Extensions.Logging;
 using Moq;
-
-using AutoMapper;
 using p1eXu5.AutoProfile.Contracts;
 
 namespace p1eXu5.AutoProfile.Tests.IntegrationTests
@@ -24,9 +18,9 @@ namespace p1eXu5.AutoProfile.Tests.IntegrationTests
         [OneTimeSetUp]
         public void CreateMapper()
         {
-            AutoProfile autoProfile = new AutoProfile( typeof(Model), Mock.Of< ILogger >() );
+            AutoProfile autoProfile = new AutoProfile(typeof(Model), Mock.Of<ILogger>());
 
-            var conf = new MapperConfiguration( cfg => cfg.AddProfile( autoProfile.Configure() ) );
+            var conf = new MapperConfiguration(cfg => cfg.AddProfile(autoProfile.Configure()));
             conf.AssertConfigurationIsValid();
 
             Mapper = conf.CreateMapper();
@@ -39,10 +33,10 @@ namespace p1eXu5.AutoProfile.Tests.IntegrationTests
             var coll = Mapper.ConfigurationProvider.Internal().GetAllTypeMaps();
 
             // Assert:
-            Assert.IsTrue( coll.Any( m => m.Types == new TypePair( typeof(Model), typeof(ModelDtoA) ) ) );
-            Assert.IsTrue( coll.Any( m => m.Types == new TypePair( typeof(ModelDtoB), typeof(Model) ) ) );
-            Assert.IsTrue( coll.Any( m => m.Types == new TypePair( typeof(Model), typeof(ModelDtoC) ) ) );
-            Assert.IsTrue( coll.Any( m => m.Types == new TypePair( typeof(ModelDtoC), typeof(Model) ) ) );
+            Assert.IsTrue(coll.Any(m => m.Types == new TypePair(typeof(Model), typeof(ModelDtoA))));
+            Assert.IsTrue(coll.Any(m => m.Types == new TypePair(typeof(ModelDtoB), typeof(Model))));
+            Assert.IsTrue(coll.Any(m => m.Types == new TypePair(typeof(Model), typeof(ModelDtoC))));
+            Assert.IsTrue(coll.Any(m => m.Types == new TypePair(typeof(ModelDtoC), typeof(Model))));
         }
 
         [Test]
@@ -53,12 +47,12 @@ namespace p1eXu5.AutoProfile.Tests.IntegrationTests
             var model = new Model { Id = 2342, Name = "asdasd", Date = date };
 
             // Action:
-            var dto = Mapper.Map<ModelDtoA>( model );
+            var dto = Mapper.Map<ModelDtoA>(model);
 
             // Assert:
-            Assert.AreEqual( model.Id, dto.Id );
-            Assert.AreEqual( model.Name, dto.Name );
-            Assert.AreEqual( model.Date.ToUnixTimeMilliseconds(), dto.Date );
+            Assert.AreEqual(model.Id, dto.Id);
+            Assert.AreEqual(model.Name, dto.Name);
+            Assert.AreEqual(model.Date.ToUnixTimeMilliseconds(), dto.Date);
         }
 
         [Test]
@@ -68,19 +62,21 @@ namespace p1eXu5.AutoProfile.Tests.IntegrationTests
             Type type = null!;
 
             // Action:
-            new TestProfile( Mock.Of< ILogger >(), setIAutoProfileInstanceType: t => type = t ).Configure();
+            new TestProfile(Mock.Of<ILogger>(), setIAutoProfileInstanceType: t => type = t).Configure();
 
             // Assert:
-            Assert.NotNull( type );
-            Assert.AreEqual( type, typeof( TestProfile ) );
+            Assert.NotNull(type);
+            Assert.AreEqual(type, typeof(TestProfile));
         }
 
 
-        #region fakes
+        // ==========
+        // Types
+        // ==========
 
         public class TestProfile : AutoProfile
         {
-            public TestProfile(ILogger logger, Action<Type> setIAutoProfileInstanceType ) : base( typeof(TestModel), logger )
+            public TestProfile(ILogger logger, Action<Type> setIAutoProfileInstanceType) : base(typeof(TestModel), logger)
             {
                 SetIAutoProfileInstanceType = setIAutoProfileInstanceType;
             }
@@ -92,23 +88,19 @@ namespace p1eXu5.AutoProfile.Tests.IntegrationTests
         }
 
 
-        [ MapFrom( typeof( Model ), MapFactory = nameof(TestModel.CreateMap) )]
+        [MapFrom(typeof(Model), MapFactory = nameof(TestModel.CreateMap))]
         public class TestModel
-        { 
-            public IMappingExpression< Model, TestModel > CreateMap( IAutoProfile profile )
+        {
+            public IMappingExpression<Model, TestModel> CreateMap(IAutoProfile profile)
             {
-                if ( profile is TestProfile testProfile) {
-                    testProfile.SetIAutoProfileInstanceType( profile.GetType() );
+                if (profile is TestProfile testProfile)
+                {
+                    testProfile.SetIAutoProfileInstanceType(profile.GetType());
                 }
 
                 return
-                    profile.Instance.CreateMap< Model, TestModel >( MemberList.Destination );
+                    profile.Instance.CreateMap<Model, TestModel>(MemberList.Destination);
             }
         }
-
-
-        #endregion ----------------------------------------------------- factories
     }
-
-
 }

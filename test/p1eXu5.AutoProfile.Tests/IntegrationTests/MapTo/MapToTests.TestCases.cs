@@ -10,7 +10,8 @@ public static class TestCases
 {
     public static IEnumerable SimpleTypeCases
     {
-        get {
+        get
+        {
             yield return
                 new TestCaseData(
                     new object[] { AutoFaker.Generate<MasterSimpleClassModel>(), typeof(MasterSimpleClassModel), typeof(SlaveSimpleClassModel) }

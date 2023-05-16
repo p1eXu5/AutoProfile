@@ -2,7 +2,6 @@
 
 using IgnoreAttribute = AutoMapper.Configuration.Annotations.IgnoreAttribute;
 
-
 public class MapToTestsTypes
 {
     public enum TestEnum
@@ -25,15 +24,18 @@ public class MapToTestsTypes
         string StringProp { get; }
     }
 
-
     [MapTo(typeof(SlaveSimpleClassModel))]
     [MapTo(typeof(Ignored.SlaveSimpleClassModel))]
     public class MasterSimpleClassModel : ISimpleClassModel
     {
         public int IntProp { get; init; }
+
         public string StringProp { get; init; } = default!;
+
         public bool BoolProp { get; init; }
+
         public double DoubleProp { get; init; }
+
         public TestEnum EnumProp { get; init; }
     }
 
@@ -41,9 +43,13 @@ public class MapToTestsTypes
     public struct MasterSimpleStructModel : ISimpleClassModel
     {
         public int IntProp { get; init; }
+
         public string StringProp { get; init; }
+
         public bool BoolProp { get; init; }
+
         public double DoubleProp { get; init; }
+
         public TestEnum EnumProp { get; init; }
     }
 
@@ -56,8 +62,6 @@ public class MapToTestsTypes
         TestEnum EnumProp
     ) : ISimpleClassModel;
 
-
-
     [MapTo(typeof(SlaveSimpleRecordStructModel))]
     public record struct MasterSimpleRecordStructModel(
         int IntProp,
@@ -68,38 +72,44 @@ public class MapToTestsTypes
     ) : ISimpleClassModel;
 
 
-
-
-
     public class SlaveSimpleClassModel : ISimpleClassModel
     {
         public int IntProp { get; init; }
+
         public string StringProp { get; init; } = default!;
+
         public bool BoolProp { get; init; }
+
         public double DoubleProp { get; init; }
+
         public TestEnum EnumProp { get; init; }
     }
-
 
     public struct SlaveSimpleStructModel : ISimpleClassModel
     {
         public int IntProp { get; init; }
+
         public string StringProp { get; init; }
+
         public bool BoolProp { get; init; }
+
         public double DoubleProp { get; init; }
+
         public TestEnum EnumProp { get; init; }
     }
-    
+
     public record SlaveSimpleRecordModel : ISimpleClassModel
     {
         public int IntProp { get; init; }
+
         public string StringProp { get; init; } = default!;
+
         public bool BoolProp { get; init; }
+
         public double DoubleProp { get; init; }
+
         public TestEnum EnumProp { get; init; }
     }
-
-
 
     public record struct SlaveSimpleRecordStructModel(
         int IntProp,
@@ -108,7 +118,6 @@ public class MapToTestsTypes
         double DoubleProp,
         TestEnum EnumProp
     ) : ISimpleClassModel;
-
 
     // Error: no available constructor!
     public record SlaveSimpleRecordModelWithCtor(
@@ -130,7 +139,9 @@ public class MapToTestsTypes
             public string StringProp { get; init; } = default!;
 
             public bool BoolProp { get; init; }
+
             public double DoubleProp { get; init; }
+
             public TestEnum EnumProp { get; init; }
         }
 
@@ -144,7 +155,9 @@ public class MapToTestsTypes
             public string StringProp { get; init; } = default!;
 
             public bool BoolProp { get; init; }
+
             public double DoubleProp { get; init; }
+
             public TestEnum EnumProp { get; init; }
         }
     }
@@ -161,7 +174,9 @@ public class MapToTestsTypes
             public string StringAnotherProp { get; init; } = default!;
 
             public bool BoolProp { get; init; }
+
             public double DoubleProp { get; init; }
+
             public TestEnum EnumProp { get; init; }
         }
 
@@ -169,12 +184,14 @@ public class MapToTestsTypes
         public class MasterSimpleClassModelWithSourceMemberList : ISimpleClassModelBase
         {
             public int IntProp { get; init; }
-        
+
             [Opposite(nameof(MapToTestsTypes.SlaveSimpleClassModel.StringProp))]
             public string StringAnotherProp { get; init; } = default!;
-        
+
             public bool BoolProp { get; init; }
+
             public double DoubleProp { get; init; }
+
             public TestEnum EnumProp { get; init; }
         }
     }
